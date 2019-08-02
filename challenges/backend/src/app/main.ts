@@ -7,6 +7,7 @@ import {IAuction} from "./services/CarOnSaleClient/interface/IAuction";
 import {Auction} from "./services/CarOnSaleClient/classes/Auction";
 import {AuctionMonitorApp} from "./AuctionMonitorApp";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
+import {AuthedFetchFactory, fetchfn} from "./services/CarOnSaleClient/classes/AuthedFetch";
 
 /*
  * Create the DI container.
@@ -22,14 +23,19 @@ container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
 container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
 container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
 
-/*
- * Inject all dependencies in the application & retrieve application instance.
- */
-const app = container.resolve(AuctionMonitorApp);
-
-/*
- * Start the application
- */
 (async () => {
+    {
+        const fetch: fetchfn = await AuthedFetchFactory.authenticate("salesman@random.com", "123test");
+        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(fetch);
+    }
+
+    /*
+    * Inject all dependencies in the application & retrieve application instance.
+    */
+    const app = container.resolve(AuctionMonitorApp);
+
+    /*
+    * Start the application
+    */
     await app.start();
 })();
