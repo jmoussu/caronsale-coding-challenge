@@ -49,11 +49,6 @@ export class CarOnSaleClient implements ICarOnSaleClient {
                 meta: "",
             }),
         });
-        this.logger.log(JSON.stringify({
-            password: hashpass,
-            meta: "",
-        }));
-        this.logger.log(authResponse.url);
 
         const auth = await authResponse.json();
 
@@ -66,8 +61,6 @@ export class CarOnSaleClient implements ICarOnSaleClient {
             },
         });
         const list = await response.json();
-
-        this.logger.log(JSON.stringify(list, null, 4));
 
         return list.map((auction: object) => new this.Auction(auction));
     }
