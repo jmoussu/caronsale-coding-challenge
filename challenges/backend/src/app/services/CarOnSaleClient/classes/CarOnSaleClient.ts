@@ -5,6 +5,7 @@ import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import "reflect-metadata";
 import {createHash} from "crypto";
 import fetch from "node-fetch";
+import {Auction} from "./Auction";
 import * as jwt from "jsonwebtoken";
 
 @injectable()
@@ -64,6 +65,7 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         });
         const list = await response.json();
 
+        return list.map((auction: object) => new Auction(auction));
         this.logger.log(JSON.stringify(list, null, 4));
 
         return list;
