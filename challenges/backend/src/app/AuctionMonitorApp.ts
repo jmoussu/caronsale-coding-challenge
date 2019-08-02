@@ -16,6 +16,26 @@ export class AuctionMonitorApp {
 
         this.logger.log(`Auction Monitor started.`);
 
+        const auctions = await this.client.getRunningAuctions();
+
+        this.logger.log("count: " + auctions.length.toString());
+
+        let bidsAvg = 0;
+        let progressAvg = 0;
+
+        for(const auction of auctions) {
+            bidsAvg += auction.numBids;
+            if(auction.minimumRequiredAsk) {
+                progressAvg += auction.currentHighestBidValue / auction.minimumRequiredAsk;
+            } else if(auction.numBids > 0) {
+                progressAvg += 1;
+            }
+        }
+        bidsAvg /= auctions.length;
+        progressAvg /= auctions.length;
+
+        this.logger.log("average bids: " + bidsAvg.toString());
+        this.logger.log("average progress: " + progressAvg.toString());
         // TODO: Retrieve auctions and display aggregated information (see README.md)
 
     }

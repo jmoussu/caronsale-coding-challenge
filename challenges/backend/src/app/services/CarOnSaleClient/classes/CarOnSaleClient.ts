@@ -5,6 +5,7 @@ import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import "reflect-metadata";
 import {createHash} from "crypto";
 import fetch from "node-fetch";
+import * as jwt from "jsonwebtoken";
 
 @injectable()
 export class CarOnSaleClient implements ICarOnSaleClient {
@@ -24,7 +25,7 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         return hash;
     }
 
-    public async getRunningAuctions(): Promise<void /* TODO: Introduce a type */> {
+    public async getRunningAuctions(): Promise<any[] /* TODO: Introduce a type */> {
         const hashpass = this.hashPasswordWithCycles("123test", 5);
         const user = encodeURIComponent("salesman@random.com");
         const headers = {
@@ -64,6 +65,8 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         const list = await response.json();
 
         this.logger.log(JSON.stringify(list, null, 4));
+
+        return list;
     }
 
 }
