@@ -53,17 +53,17 @@ export class CarOnSaleClient implements ICarOnSaleClient {
 
         const auth = await authResponse.json();
 
-        this.logger.log(JSON.stringify(auth));
-        this.logger.log(Buffer.from(auth.token).toString("base64"));
-
-        const response = await fetch(base + "auction/salesman/" + user + "/_all" +
-                "?access_token=" + encodeURIComponent(Buffer.from(auth.token).toString("base64")), {
+        const response = await fetch(base + "auction/salesman/" + user + "/_all", {
             method: "GET",
-            headers: headers,
+            headers: {
+                ...headers,
+                userid: "salesman@random.com",
+                authtoken: auth.token,
+            },
         });
         const list = await response.json();
 
-        this.logger.log(JSON.stringify(list));
+        this.logger.log(JSON.stringify(list, null, 4));
     }
 
 }
