@@ -1,0 +1,15 @@
+.main-container {
+  background-image: url('/assets/svgs/landing-page.svg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 600px 600px;
+  height: 88vh;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 24px;
+
+  h1 {
+    max-width: 600px;
+  }
+}

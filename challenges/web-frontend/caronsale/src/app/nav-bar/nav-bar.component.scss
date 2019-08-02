@@ -1,29 +1,16 @@
-header {
-  background: #7700FF;
+.toolbar-custom {
+  background-color: whitesmoke;
 
-  .logo {
-      font-weight: bold;
+  span {
+    color: black;
   }
 
-  nav {
-      justify-self: right;
-      ul {
-          list-style-type: none;
-          margin: 0; padding: 0;
+  .spacer {
+    flex: 1 1 auto;
+  }
 
-          li {
-              float: left;
-
-              a {
-                  padding: 1.5em;
-                  text-transform: uppercase;
-                  font-size: .8em;
-
-                  &:hover {
-                      background: #8E2BFF;
-                  }
-              }
-          }
-      }
+  a {
+    text-decoration: none;
+    color: black;
   }
 }

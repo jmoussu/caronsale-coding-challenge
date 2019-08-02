@@ -1,12 +1,5 @@
-<header>
-  <div class="container">
-    <a routerLink="/" class="logo">{{ apptitle }}</a>
-    <nav>
-      <ul>
-        <li>
-          <a routerLink="/login">Login</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<mat-toolbar color="primary" class="toolbar-custom">
+    <span>{{ apptitle }}</span>
+    <span class="spacer"></span>
+    <a routerLink="/login">Login</a>
+</mat-toolbar>
