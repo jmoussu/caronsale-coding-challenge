@@ -3,6 +3,8 @@ import {ILogger} from "./services/Logger/interface/ILogger";
 import {Logger} from "./services/Logger/classes/Logger";
 import {ICarOnSaleClient} from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 import {CarOnSaleClient} from "./services/CarOnSaleClient/classes/CarOnSaleClient";
+import {IAuction} from "./services/CarOnSaleClient/interface/IAuction";
+import {Auction} from "./services/CarOnSaleClient/classes/Auction";
 import {AuctionMonitorApp} from "./AuctionMonitorApp";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
 
@@ -18,6 +20,7 @@ const container = new Container({
  */
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
 container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
+container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
 
 /*
  * Inject all dependencies in the application & retrieve application instance.

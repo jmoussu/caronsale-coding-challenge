@@ -1,18 +1,20 @@
-import {inject, injectable} from "inversify";
+import {inject, injectable, interfaces} from "inversify";
 import {ILogger} from "../../Logger/interface/ILogger";
 import {ICarOnSaleClient} from "../interface/ICarOnSaleClient";
 import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import "reflect-metadata";
 import {createHash} from "crypto";
 import fetch from "node-fetch";
-import {Auction} from "./Auction";
+import {IAuction} from "../interface/IAuction";
 import * as jwt from "jsonwebtoken";
 
 @injectable()
 export class CarOnSaleClient implements ICarOnSaleClient {
 
-    public constructor(@inject(DependencyIdentifier.LOGGER) private logger: ILogger) {
-    }
+    public constructor(
+        @inject(DependencyIdentifier.LOGGER) private logger: ILogger,
+        @inject(DependencyIdentifier.AUCTION_CONSTRUCTOR) private Auction: interfaces.Newable<IAuction>,
+    ) { }
 
     private hashPasswordWithCycles(plainTextPassword: string, cycles: number): string {
         let hash = `${plainTextPassword}`;
@@ -26,7 +28,7 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         return hash;
     }
 
-    public async getRunningAuctions(): Promise<any[] /* TODO: Introduce a type */> {
+    public async getRunningAuctions(): Promise<IAuction[]> {
         const hashpass = this.hashPasswordWithCycles("123test", 5);
         const user = encodeURIComponent("salesman@random.com");
         const headers = {
@@ -65,10 +67,9 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         });
         const list = await response.json();
 
-        return list.map((auction: object) => new Auction(auction));
         this.logger.log(JSON.stringify(list, null, 4));
 
-        return list;
+        return list.map((auction: object) => new this.Auction(auction));
     }
 
 }
