@@ -33,7 +33,7 @@ const conf = {
     password: "123test",
 };
 
-(async () => {
+(async () => { try {
     {
         const authedFetch = await authedFetchFactory.authenticate(
             conf.baseUrl, conf.userMailId, conf.password,
@@ -50,4 +50,8 @@ const conf = {
     * Start the application
     */
     await app.start(conf.userMailId);
-})();
+
+} catch(error) {
+    console.error(error.stack.toString());
+    process.exit(-1);
+}})();
