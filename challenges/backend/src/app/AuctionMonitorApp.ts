@@ -20,12 +20,16 @@ export class AuctionMonitorApp {
 
         this.logger.log("count: " + auctions.length.toString());
 
+        if(auctions.length <= 0) {
+            return;
+        }
+
         let bidsAvg = 0;
         let progressAvg = 0;
 
         for(const auction of auctions) {
             bidsAvg += auction.numBids;
-            if(auction.minimumRequiredAsk) {
+            if(auction.minimumRequiredAsk > 0) {
                 progressAvg += auction.currentHighestBidValue / auction.minimumRequiredAsk;
             } else if(auction.numBids > 0) {
                 progressAvg += 1;

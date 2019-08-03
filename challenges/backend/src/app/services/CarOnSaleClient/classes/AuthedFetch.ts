@@ -47,6 +47,14 @@ export class AuthedFetchFactory {
 
         const auth = await authResponse.json();
 
+        if(!authResponse.ok) {
+            throw new Error("authentication failed: " + JSON.stringify(auth, null, 4));
+        }
+
+        if(!auth.token) {
+            throw new Error("no authentication token");
+        }
+
         return async (url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> => {
             init.headers = {
                 ...init.headers,

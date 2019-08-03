@@ -28,6 +28,10 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         });
         const list = await response.json();
 
+        if(!response.ok) {
+            throw new Error("REST request failed: " + JSON.stringify(list, null, 4));
+        }
+
         return list.map((auction: object) => new this.Auction(auction));
     }
 
