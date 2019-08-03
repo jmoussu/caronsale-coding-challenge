@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
       .subscribe((auth: AuthenticationResult) => {
         localStorage.setItem('token', auth.token);
         localStorage.setItem('userId', auth.userId);
+        localStorage.setItem('privelege', auth.privileges);
 
         this.router.navigateByUrl('/overview');
       });
