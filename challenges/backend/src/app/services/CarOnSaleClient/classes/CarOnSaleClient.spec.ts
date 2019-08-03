@@ -29,7 +29,7 @@ describe("CarOnSaleClient test", () => {
             numBids: 2,
         })];
         async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
-            equal(url, "auction/salesman/dumbo/_all");
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
             equal(init.method, "GET");
             equal(init.body, null);
             return new fetch.Response(JSON.stringify(list));
@@ -39,7 +39,7 @@ describe("CarOnSaleClient test", () => {
 
         const client = container.resolve(CarOnSaleClient);
 
-        const result = await client.getRunningAuctions("dumbo");
+        const result = await client.getRunningAuctions("dumbo@example.com");
         deepEqual(result, list);
     });
 });

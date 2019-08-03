@@ -46,7 +46,7 @@ describe("AuctionMonitorApp test", () => {
         })];
 
         async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
-            equal(url, "auction/salesman/dumbo/_all");
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
             equal(init.method, "GET");
             equal(init.body, null);
             return new fetch.Response(JSON.stringify(list));
@@ -65,7 +65,7 @@ describe("AuctionMonitorApp test", () => {
 
         const app = container.resolve(AuctionMonitorApp);
 
-        await app.start("dumbo");
+        await app.start("dumbo@example.com");
     });
 
     it("should return only auction count == 0", async () => {
@@ -79,7 +79,7 @@ describe("AuctionMonitorApp test", () => {
         const list = [];
 
         async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
-            equal(url, "auction/salesman/dumbo/_all");
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
             equal(init.method, "GET");
             equal(init.body, null);
             return new fetch.Response(JSON.stringify(list));
@@ -96,7 +96,7 @@ describe("AuctionMonitorApp test", () => {
 
         const app = container.resolve(AuctionMonitorApp);
 
-        await app.start("dumbo");
+        await app.start("dumbo@example.com");
     });
 
     it("should return expected auction stats with null miniumRequiredAsk", async () => {
@@ -118,7 +118,7 @@ describe("AuctionMonitorApp test", () => {
         })];
 
         async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
-            equal(url, "auction/salesman/dumbo/_all");
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
             equal(init.method, "GET");
             equal(init.body, null);
             return new fetch.Response(JSON.stringify(list));
@@ -137,7 +137,7 @@ describe("AuctionMonitorApp test", () => {
 
         const app = container.resolve(AuctionMonitorApp);
 
-        await app.start("dumbo");
+        await app.start("dumbo@example.com");
     });
 
 });
