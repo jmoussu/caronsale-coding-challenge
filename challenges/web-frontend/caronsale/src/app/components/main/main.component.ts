@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthenticationResult } from '../models/authentication-result';
-import { AuthenticationService } from '../services/authentication/authentication.service';
+import { AuthenticationResult } from '../../models/authentication-result';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-main',
