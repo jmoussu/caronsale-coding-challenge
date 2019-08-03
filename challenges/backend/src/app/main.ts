@@ -8,7 +8,7 @@ import {Auction} from "./services/CarOnSaleClient/classes/Auction";
 import {AuctionMonitorApp} from "./AuctionMonitorApp";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
 import {AuthedFetchFactory, fetchfn} from "./services/CarOnSaleClient/classes/AuthedFetch";
-import fetch from "node-fetch";
+import * as fetch from "node-fetch";
 
 /*
  * Create the DI container.
@@ -23,7 +23,7 @@ const container = new Container({
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
 container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
 container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
-container.bind<fetchfn>(DependencyIdentifier.FETCH).toFunction(fetch);
+container.bind<fetchfn>(DependencyIdentifier.FETCH).toFunction(fetch.default);
 
 const authedFetchFactory = container.resolve(AuthedFetchFactory);
 

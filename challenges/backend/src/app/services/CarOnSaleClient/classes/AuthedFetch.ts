@@ -2,9 +2,9 @@ import {inject, injectable} from "inversify";
 import "reflect-metadata";
 import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import {createHash} from "crypto";
-import {RequestInfo, RequestInit, Response} from "node-fetch";
+import * as fetch from "node-fetch";
 
-export type fetchfn = (url: RequestInfo, init?: RequestInit) => Promise<Response>;
+export type fetchfn = (url: fetch.RequestInfo, init?: fetch.RequestInit) => Promise<fetch.Response>;
 
 @injectable()
 export class AuthedFetchFactory {
@@ -47,7 +47,7 @@ export class AuthedFetchFactory {
 
         const auth = await authResponse.json();
 
-        return async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+        return async (url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> => {
             init.headers = {
                 ...init.headers,
                 userid: userMailId,

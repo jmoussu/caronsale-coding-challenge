@@ -1,11 +1,14 @@
 import {Container} from "inversify";
-import { equal } from "assert";
-import "./CarOnSaleClient";
+import { equal, deepEqual } from "assert";
 
 import {ILogger} from "../../Logger/interface/ILogger";
 import {Logger} from "../../Logger/classes/Logger";
 import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import { CarOnSaleClient } from "./CarOnSaleClient";
+import {IAuction} from "../interface/IAuction";
+import {Auction} from "./Auction";
+import {fetchfn} from "./AuthedFetch";
+import * as fetch from "node-fetch";
 
 describe("CarOnSaleClient test", () => {
     const container = new Container({
@@ -13,11 +16,30 @@ describe("CarOnSaleClient test", () => {
     });
 
     container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
+    container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
 
-    const client = container.resolve(CarOnSaleClient);
+    it("should return expected auction list", async () => {
+        const list = [new Auction({
+            currentHighestBidValue: 1234,
+            minimumRequiredAsk: 789,
+            numBids: 5,
+        }), new Auction({
+            currentHighestBidValue: 789,
+            minimumRequiredAsk: 1234,
+            numBids: 2,
+        })];
+        async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
+            equal(url, "auction/salesman/dumbo/_all");
+            equal(init.method, "GET");
+            equal(init.body, null);
+            return new fetch.Response(JSON.stringify(list));
+        }
 
-    it("should return expected string", async () => {
-        const result = await client.getRunningAuctions();
-        equal(result, {});
+        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(testFetch);
+
+        const client = container.resolve(CarOnSaleClient);
+
+        const result = await client.getRunningAuctions("dumbo");
+        deepEqual(result, list);
     });
 });
