@@ -3,4 +3,5 @@ export const DependencyIdentifier = {
     CLIENT: "client",
     AUCTION_CONSTRUCTOR: "AuctionConstructor",
     AUTHED_FETCH: "authedFetch",
+    FETCH: "fetch",
 };

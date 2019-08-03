@@ -8,6 +8,7 @@ import {Auction} from "./services/CarOnSaleClient/classes/Auction";
 import {AuctionMonitorApp} from "./AuctionMonitorApp";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
 import {AuthedFetchFactory, fetchfn} from "./services/CarOnSaleClient/classes/AuthedFetch";
+import fetch from "node-fetch";
 
 /*
  * Create the DI container.
@@ -22,11 +23,17 @@ const container = new Container({
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
 container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
 container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
+container.bind<fetchfn>(DependencyIdentifier.FETCH).toFunction(fetch);
+
+const authedFetchFactory = container.resolve(AuthedFetchFactory);
 
 (async () => {
     {
-        const fetch: fetchfn = await AuthedFetchFactory.authenticate("salesman@random.com", "123test");
-        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(fetch);
+        const authedFetch = await authedFetchFactory.authenticate(
+            "https://caronsale-backend-service-dev.herokuapp.com/api/v1/",
+            "salesman@random.com", "123test",
+        );
+        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(authedFetch);
     }
 
     /*

@@ -1,14 +1,15 @@
 import {inject, injectable} from "inversify";
 import "reflect-metadata";
+import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import {createHash} from "crypto";
 import {RequestInfo, RequestInit, Response} from "node-fetch";
-import fetch from "node-fetch";
 
 export type fetchfn = (url: RequestInfo, init?: RequestInit) => Promise<Response>;
 
+@injectable()
 export class AuthedFetchFactory {
 
-    private static hashPasswordWithCycles(plainTextPassword: string, cycles: number): string {
+    private hashPasswordWithCycles(plainTextPassword: string, cycles: number): string {
         let hash = `${plainTextPassword}`;
 
         for(let i = 0; i < cycles; i++) {
@@ -20,7 +21,11 @@ export class AuthedFetchFactory {
         return hash;
     }
 
-    public static async authenticate(userMailId: string, password: string): Promise<fetchfn> {
+    public constructor(
+        @inject(DependencyIdentifier.FETCH) private externalFetch: fetchfn,
+    ) { }
+
+    public async authenticate(base: string, userMailId: string, password: string): Promise<fetchfn> {
         const hashedPassword = this.hashPasswordWithCycles(password, 5);
         const encUserMailId = encodeURIComponent(userMailId);
         const headers = {
@@ -28,9 +33,7 @@ export class AuthedFetchFactory {
             "User-Agent": "caronsale-coding-challenge",
         };
 
-        const base = "https://caronsale-backend-service-dev.herokuapp.com/api/v1/";
-
-        const authResponse = await fetch(base + "authentication/" + encUserMailId, {
+        const authResponse = await this.externalFetch(base + "authentication/" + encUserMailId, {
             method: "PUT",
             headers: {
                 ...headers,
@@ -51,7 +54,7 @@ export class AuthedFetchFactory {
                 authtoken: auth.token,
             };
 
-            return fetch(base + url, init);
+            return this.externalFetch(base + url, init);
         };
     }
 
