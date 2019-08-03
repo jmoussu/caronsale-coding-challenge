@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication/authentication.service';
+
+import { AuthenticationResult } from '../models/authentication-result';
 
 @Component({
   selector: 'app-login',
@@ -7,22 +10,26 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  hasErros = false;
+  loginForm: FormGroup;
 
-  email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [Validators.required]);
-
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private authService: AuthenticationService, private formBuiler: FormBuilder) {
+    this.loginForm = this.formBuiler.group({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required])
+    });
   }
 
+  ngOnInit() { }
+
   onSubmit() {
-    if (this.email.invalid || this.password.invalid)  {
+    if (this.loginForm.invalid) {
       return;
     }
 
-    // TODO: login
-    console.log('trying to log in');
+    const email = this.loginForm.controls.email.value;
+    const password = this.loginForm.controls.password.value;
+
+    this.authService.authenticate(email, password)
+      .subscribe(() => console.log(AuthenticationResult));
   }
 }

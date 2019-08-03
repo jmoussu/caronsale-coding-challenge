@@ -12,6 +12,7 @@ import { DealershipOverviewComponent } from './dealership-overview/dealership-ov
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './nav-bar/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
