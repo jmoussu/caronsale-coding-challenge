@@ -12,6 +12,7 @@ import { AuthenticationResult } from '../models/authentication-result';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  hasLoginError: boolean;
 
   constructor(
     private authService: AuthenticationService,
@@ -40,6 +41,14 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('privelege', auth.privileges);
 
         this.router.navigateByUrl('/overview');
+      }, () => {
+        this.hasLoginError = true;
+        this.loginForm.controls.email.setErrors({
+          notUnique: true
+        });
+        this.loginForm.controls.password.setErrors({
+          notUnique: true
+        });
       });
   }
 }

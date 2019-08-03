@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="toolbar-custom">
     <a class="logo" routerLink="/">{{ apptitle }}</a>
     <span class="spacer"></span>
-    <a routerLink="/login">Login</a>
+    <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
 </mat-toolbar>
