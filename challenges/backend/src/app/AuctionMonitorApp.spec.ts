@@ -110,11 +110,11 @@ describe("AuctionMonitorApp test", () => {
         const list = [new Auction({
             currentHighestBidValue: 1234,
             minimumRequiredAsk: null,
-            numBids: 1,
+            numBids: 2,
         }), new Auction({
-            currentHighestBidValue: 789,
+            currentHighestBidValue: null,
             minimumRequiredAsk: null,
-            numBids: 1,
+            numBids: 0,
         })];
 
         async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
@@ -129,8 +129,8 @@ describe("AuctionMonitorApp test", () => {
         const messages: string[] = [
             "Auction Monitor started.",
             "count: " + list.length.toString(),
-            "average bids: " + ((1 + 1)/2).toString(),
-            "average progress: " + (1).toString(),
+            "average bids: " + ((2 + 0)/2).toString(),
+            "average progress: " + ((1 + 0)/2).toString(),
         ];
         container.bind<string[]>("allowed-messages").toConstantValue(messages);
         container.bind<ILogger>(DependencyIdentifier.LOGGER).to(TestLogger);
