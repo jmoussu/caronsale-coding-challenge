@@ -27,11 +27,16 @@ container.bind<fetchfn>(DependencyIdentifier.FETCH).toFunction(fetch);
 
 const authedFetchFactory = container.resolve(AuthedFetchFactory);
 
+const conf = {
+    baseUrl: "https://caronsale-backend-service-dev.herokuapp.com/api/v1/",
+    userMailId: "salesman@random.com",
+    password: "123test",
+};
+
 (async () => {
     {
         const authedFetch = await authedFetchFactory.authenticate(
-            "https://caronsale-backend-service-dev.herokuapp.com/api/v1/",
-            "salesman@random.com", "123test",
+            conf.baseUrl, conf.userMailId, conf.password,
         );
         container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(authedFetch);
     }
@@ -44,5 +49,5 @@ const authedFetchFactory = container.resolve(AuthedFetchFactory);
     /*
     * Start the application
     */
-    await app.start();
+    await app.start(conf.userMailId);
 })();

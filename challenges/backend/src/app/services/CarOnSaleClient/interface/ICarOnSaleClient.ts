@@ -5,6 +5,6 @@ import {IAuction} from "./IAuction";
  */
 export interface ICarOnSaleClient {
 
-    getRunningAuctions(): Promise<IAuction[]>;
+    getRunningAuctions(userMailId: string): Promise<IAuction[]>;
 
 }

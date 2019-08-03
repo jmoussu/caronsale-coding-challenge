@@ -15,8 +15,8 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         @inject(DependencyIdentifier.AUTHED_FETCH) private fetch: fetchfn,
     ) { }
 
-    public async getRunningAuctions(): Promise<IAuction[]> {
-        const user = encodeURIComponent("salesman@random.com");
+    public async getRunningAuctions(userMailId: string): Promise<IAuction[]> {
+        const user = encodeURIComponent(userMailId);
         const headers = {
             "Accept": "application/json",
             "User-Agent": "caronsale-coding-challenge",

@@ -12,11 +12,11 @@ export class AuctionMonitorApp {
         @inject(DependencyIdentifier.CLIENT) private client: ICarOnSaleClient,
     ) { }
 
-    public async start(): Promise<void> {
+    public async start(userMailId: string): Promise<void> {
 
         this.logger.log(`Auction Monitor started.`);
 
-        const auctions = await this.client.getRunningAuctions();
+        const auctions = await this.client.getRunningAuctions(userMailId);
 
         this.logger.log("count: " + auctions.length.toString());
 
