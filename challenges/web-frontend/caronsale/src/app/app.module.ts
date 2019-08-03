@@ -13,6 +13,7 @@ import { NavBarComponent } from './common/nav-bar/nav-bar.component';
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { NavBarSalesmanComponent } from './common/nav-bar-salesman/nav-bar-salesman.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     SalesmanOverviewComponent,
     DealershipOverviewComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    NavBarSalesmanComponent
   ],
   imports: [
     BrowserModule,
