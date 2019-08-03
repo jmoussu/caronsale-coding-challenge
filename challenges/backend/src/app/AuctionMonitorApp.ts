@@ -35,12 +35,12 @@ export class AuctionMonitorApp {
                 progressAvg += 1;
             }
         }
+
         bidsAvg /= auctions.length;
         progressAvg /= auctions.length;
 
         this.logger.log("average bids: " + bidsAvg.toString());
         this.logger.log("average progress: " + progressAvg.toString());
-        // TODO: Retrieve auctions and display aggregated information (see README.md)
 
     }
 
