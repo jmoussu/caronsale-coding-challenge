@@ -1,0 +1,49 @@
+@import '../../../mixins.scss';
+
+.main-container {
+  background-image: url('/assets/svgs/landing-page.svg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  height: 88vh;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 64px;
+
+  @include breakpoint('m') {
+    padding-left: 36px;
+    background-size: 600px 600px;
+  }
+
+  @include breakpoint('s') {
+    padding-left: 16px;
+    background-size: 400px 400px;
+  }
+
+  @include breakpoint('xs') {
+    padding-left: 16px;
+    background-size: 400px 400px;
+    justify-content: center;
+    background-position: top right;
+  }
+
+  h1 {
+    max-width: 600px;
+
+    @include breakpoint('m') {
+      font-size: 4.5rem;
+      max-width: 300px;
+    }
+
+    @include breakpoint('s') {
+      font-size: 3rem;
+      max-width: 300px;
+    }
+
+    @include breakpoint('xs') {
+      font-size: 2rem;
+      max-width: none;
+      padding-top: 350px;
+    }
+  }
+}

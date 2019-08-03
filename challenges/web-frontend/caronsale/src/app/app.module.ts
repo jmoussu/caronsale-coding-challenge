@@ -1,12 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MaterialModule } from './material.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
-import { SalesmanOverviewComponent } from './salesman-overview/salesman-overview.component';
-import { DealershipOverviewComponent } from './dealership-overview/dealership-overview.component';
+import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
+import { SalesmanOverviewComponent } from './components/salesman-overview/salesman-overview.component';
+import { DealershipOverviewComponent } from './components/dealership-overview/dealership-overview.component';
+import { NavBarComponent } from './common/nav-bar/nav-bar.component';
+import { HomeComponent } from './components/home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { NavBarSalesmanComponent } from './common/nav-bar-salesman/nav-bar-salesman.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +21,19 @@ import { DealershipOverviewComponent } from './dealership-overview/dealership-ov
     LoginComponent,
     MainComponent,
     SalesmanOverviewComponent,
-    DealershipOverviewComponent
+    DealershipOverviewComponent,
+    NavBarComponent,
+    HomeComponent,
+    NavBarSalesmanComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
