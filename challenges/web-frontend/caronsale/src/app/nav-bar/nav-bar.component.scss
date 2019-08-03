@@ -1,6 +1,25 @@
+@import '../../mixins.scss';
+
 .toolbar-custom {
   background-color: whitesmoke;
+  padding-left: 64px;
+  padding-right: 64px;
 
+  @include breakpoint('m') {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  @include breakpoint('s') {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @include breakpoint('xs') {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+ 
   span {
     color: black;
   }
@@ -12,5 +31,9 @@
   a {
     text-decoration: none;
     color: black;
+  }
+
+  .logo {
+    font-size: 2rem;
   }
 }
