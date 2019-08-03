@@ -3,10 +3,8 @@ import {ILogger} from "../../Logger/interface/ILogger";
 import {ICarOnSaleClient} from "../interface/ICarOnSaleClient";
 import {DependencyIdentifier} from "../../../DependencyIdentifiers";
 import "reflect-metadata";
-import {createHash} from "crypto";
 import {IAuction} from "../interface/IAuction";
 import {fetchfn} from "./AuthedFetch";
-import * as jwt from "jsonwebtoken";
 
 @injectable()
 export class CarOnSaleClient implements ICarOnSaleClient {
