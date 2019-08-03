@@ -33,7 +33,7 @@ export class AuthedFetchFactory {
             "User-Agent": "caronsale-coding-challenge",
         };
 
-        const authResponse = await this.externalFetch(base + "authentication/" + encUserMailId, {
+        const authResponse = await this.externalFetch(`${base}authentication/${encUserMailId}`, {
             method: "PUT",
             headers: {
                 ...headers,
@@ -48,7 +48,7 @@ export class AuthedFetchFactory {
         const auth = await authResponse.json();
 
         if(!authResponse.ok) {
-            throw new Error("authentication failed: " + JSON.stringify(auth, null, 4));
+            throw new Error(`authentication failed: ${JSON.stringify(auth, null, 4)}`);
         }
 
         if(!auth.token) {

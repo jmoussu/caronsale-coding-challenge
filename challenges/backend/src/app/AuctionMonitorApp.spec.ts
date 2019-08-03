@@ -56,9 +56,9 @@ describe("AuctionMonitorApp test", () => {
 
         const messages: string[] = [
             "Auction Monitor started.",
-            "count: 2",
-            "average bids: " + ((5 + 2)/2).toString(),
-            "average progress: " + ((1234 / 789 + 789 / 1234 )/2).toString(),
+            `count: ${list.length}`,
+            `average bids: ${(5 + 2) / 2}`,
+            `average progress: ${(1234 / 789 + 789 / 1234) / 2}`,
         ];
         container.bind<string[]>("allowed-messages").toConstantValue(messages);
         container.bind<ILogger>(DependencyIdentifier.LOGGER).to(TestLogger);
@@ -127,10 +127,10 @@ describe("AuctionMonitorApp test", () => {
         container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(testFetch);
 
         const messages: string[] = [
-            "Auction Monitor started.",
-            "count: " + list.length.toString(),
-            "average bids: " + ((2 + 0)/2).toString(),
-            "average progress: " + ((1 + 0)/2).toString(),
+            `Auction Monitor started.`,
+            `count: ${list.length}`,
+            `average bids: ${(2 + 0) / 2}`,
+            `average progress: ${(1 + 0) / 2}`,
         ];
         container.bind<string[]>("allowed-messages").toConstantValue(messages);
         container.bind<ILogger>(DependencyIdentifier.LOGGER).to(TestLogger);

@@ -18,7 +18,7 @@ export class AuctionMonitorApp {
 
         const auctions = await this.client.getRunningAuctions(userMailId);
 
-        this.logger.log("count: " + auctions.length.toString());
+        this.logger.log(`count: ${auctions.length}`);
 
         if(auctions.length <= 0) {
             return;
@@ -39,9 +39,8 @@ export class AuctionMonitorApp {
         bidsAvg /= auctions.length;
         progressAvg /= auctions.length;
 
-        this.logger.log("average bids: " + bidsAvg.toString());
-        this.logger.log("average progress: " + progressAvg.toString());
-
+        this.logger.log(`average bids: ${bidsAvg}`);
+        this.logger.log(`average progress: ${progressAvg}`);
     }
 
 }

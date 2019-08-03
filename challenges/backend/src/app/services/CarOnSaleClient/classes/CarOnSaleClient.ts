@@ -22,14 +22,14 @@ export class CarOnSaleClient implements ICarOnSaleClient {
             "User-Agent": "caronsale-coding-challenge",
         };
 
-        const response = await this.fetch("auction/salesman/" + user + "/_all", {
+        const response = await this.fetch(`auction/salesman/${user}/_all`, {
             method: "GET",
             headers,
         });
         const list = await response.json();
 
         if(!response.ok) {
-            throw new Error("REST request failed: " + JSON.stringify(list, null, 4));
+            throw new Error(`REST request failed: ${JSON.stringify(list, null, 4)}`);
         }
 
         return list.map((auction: object) => new this.Auction(auction));
