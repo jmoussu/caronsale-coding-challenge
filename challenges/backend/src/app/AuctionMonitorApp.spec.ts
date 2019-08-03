@@ -1,5 +1,8 @@
 import {inject, Container, injectable} from "inversify";
 import { equal, ok } from "assert";
+import * as chai from "chai";
+import * as chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised.default);
 
 import {ILogger} from "./services/Logger/interface/ILogger";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
@@ -140,4 +143,78 @@ describe("AuctionMonitorApp test", () => {
         await app.start("dumbo@example.com");
     });
 
+    it("should fail, numBids > 0, currentHighestBidValue === null", async () => {
+        const container = new Container({
+            defaultScope: "Singleton",
+        });
+
+        container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
+        container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
+
+        const list = [{
+            currentHighestBidValue: null,
+            minimumRequiredAsk: null,
+            numBids: 1,
+        }];
+
+        async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
+            equal(init.method, "GET");
+            equal(init.body, null);
+            return new fetch.Response(JSON.stringify(list));
+        }
+
+        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(testFetch);
+
+        const messages: string[] = [
+            "Auction Monitor started.",
+        ];
+        container.bind<string[]>("allowed-messages").toConstantValue(messages);
+        container.bind<ILogger>(DependencyIdentifier.LOGGER).to(TestLogger);
+
+        const app = container.resolve(AuctionMonitorApp);
+
+        await chai.expect(
+            app.start("dumbo@example.com"),
+        ).to.be.rejectedWith(Error, /^expected positive currentHighestBidValue, actual: null$/);
+
+    });
+
+
+    it("should fail, numBids === 0, currentHighestBidValue === 500", async () => {
+        const container = new Container({
+            defaultScope: "Singleton",
+        });
+
+        container.bind<ICarOnSaleClient>(DependencyIdentifier.CLIENT).to(CarOnSaleClient);
+        container.bind<IAuction>(DependencyIdentifier.AUCTION_CONSTRUCTOR).toConstructor(Auction);
+
+        const list = [{
+            currentHighestBidValue: 500,
+            minimumRequiredAsk: null,
+            numBids: 0,
+        }];
+
+        async function testFetch(url: fetch.RequestInfo, init?: fetch.RequestInit): Promise<fetch.Response> {
+            equal(url, "auction/salesman/dumbo%40example.com/_all");
+            equal(init.method, "GET");
+            equal(init.body, null);
+            return new fetch.Response(JSON.stringify(list));
+        }
+
+        container.bind<fetchfn>(DependencyIdentifier.AUTHED_FETCH).toFunction(testFetch);
+
+        const messages: string[] = [
+            "Auction Monitor started.",
+        ];
+        container.bind<string[]>("allowed-messages").toConstantValue(messages);
+        container.bind<ILogger>(DependencyIdentifier.LOGGER).to(TestLogger);
+
+        const app = container.resolve(AuctionMonitorApp);
+
+        await chai.expect(
+            app.start("dumbo@example.com"),
+        ).to.be.rejectedWith(Error, /^expected null currentHighestBidValue$/);
+
+    });
 });
