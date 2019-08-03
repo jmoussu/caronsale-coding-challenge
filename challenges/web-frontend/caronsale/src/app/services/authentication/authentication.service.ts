@@ -18,6 +18,8 @@ const httpOptions = {
 })
 
 export class AuthenticationService {
+  isLoggedIn = false;
+  authResult: AuthenticationResult;
 
   constructor(private httpService: HttpClient) { }
 
@@ -28,10 +30,14 @@ export class AuthenticationService {
         `${authentication}/${email}`,
         { password: hashedPassword },
         httpOptions
-      ).pipe(
-        map(data => new AuthenticationResult().deserialize(data) ),
-        catchError(() => throwError('user not found'))
-      );
+    ).pipe(
+      map(data => {
+        this.isLoggedIn = true;
+        const authResult = new AuthenticationResult().deserialize(data);
+        return authResult;
+      }),
+      catchError(() => throwError('user not found'))
+    );
   }
 
   private hashPassword(password: string, cycles: number): string {
