@@ -5,14 +5,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
-import { SalesmanOverviewComponent } from './salesman-overview/salesman-overview.component';
-import { DealershipOverviewComponent } from './dealership-overview/dealership-overview.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { HomeComponent } from './nav-bar/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
+import { SalesmanOverviewComponent } from './components/salesman-overview/salesman-overview.component';
+import { DealershipOverviewComponent } from './components/dealership-overview/dealership-overview.component';
+import { NavBarComponent } from './common/nav-bar/nav-bar.component';
+import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { NavBarSalesmanComponent } from './common/nav-bar-salesman/nav-bar-salesman.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     SalesmanOverviewComponent,
     DealershipOverviewComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    NavBarSalesmanComponent
   ],
   imports: [
     BrowserModule,

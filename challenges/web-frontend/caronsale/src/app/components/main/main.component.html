@@ -1,0 +1,6 @@
+<div *ngIf="authResult.privileges === '{PUBLIC_USER}~{SALESMAN_USER}'">
+  <app-salesman-overview></app-salesman-overview>
+</div>
+<div *ngIf="authResult.privileges === '{PUBLIC_USER}~{DEALERSHIP_USER}'">
+  <app-dealership-overview></app-dealership-overview>
+</div>

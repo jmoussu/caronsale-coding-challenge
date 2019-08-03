@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { sha512 } from 'js-sha512';
 
@@ -18,7 +18,7 @@ const httpOptions = {
 })
 
 export class AuthenticationService {
-  isLoggedIn = false;
+  isLoggedIn: boolean;
   authResult: AuthenticationResult;
 
   constructor(private httpService: HttpClient) { }
@@ -36,7 +36,10 @@ export class AuthenticationService {
         const authResult = new AuthenticationResult().deserialize(data);
         return authResult;
       }),
-      catchError(() => throwError('user not found'))
+      catchError(() => {
+        this.isLoggedIn = false;
+        return throwError('user not found');
+      })
     );
   }
 
