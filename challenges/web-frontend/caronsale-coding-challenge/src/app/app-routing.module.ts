@@ -6,7 +6,6 @@ import { HomeSalesmanComponent } from "./home-salesman";
 import { LoginComponent } from "./login/login.component";
 import { HomeDealershipComponent } from "./home-dealership";
 
-// Roles: 0 - Dealership, 1 - Salesman
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home-salesman',
@@ -27,7 +26,7 @@ const routes: Routes = [
   },
 
   // otherwise redirect to home-salesman
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

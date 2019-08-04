@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
 
-import { AuthenticationService, UserService } from "../services";
+import { AuthenticationService } from "../services";
 import { User } from '../models';
 
 @Component({
@@ -15,8 +14,7 @@ export class HomeSalesmanComponent implements OnInit {
   currentUserSubscription: Subscription;
 
   constructor(
-    private authenticationService: AuthenticationService,
-    private userService: UserService
+    private authenticationService: AuthenticationService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;

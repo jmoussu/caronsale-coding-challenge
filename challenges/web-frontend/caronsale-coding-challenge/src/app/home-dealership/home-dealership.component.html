@@ -1,1 +1,24 @@
-<p>home dealership works!</p>
+<div class="container title">
+  <h1>Your last auctions</h1>
+</div>
+
+<ul class="row">
+  <li *ngFor="let auction of auctions; index as i; trackBy: label"
+      class="col-sm-6">
+    <div class="card">
+      <img class="card-img-top" src="{{auction.associatedVehicle.vehicleImages[0].url}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{auction.label}}</h5>
+        <p class="card-text">
+          {{auction.associatedVehicle.ez}} | {{(auction.associatedVehicle.mileageInKm) + ' KM'}} |
+          {{auction.associatedVehicle.fuelType | fuel }} | {{auction.associatedVehicle.transmission | transmission}}
+        </p>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary col-6 col-sm-5">{{auction.currentHighestBidValue + '€'}}</a>
+          <span class="col-6 col-sm-7 card-countdown">{{auction.remainingTimeInSeconds | countdown }}</span>
+        </div>
+        <span></span>
+      </div>
+    </div>
+  </li>
+</ul>

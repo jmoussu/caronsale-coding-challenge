@@ -7,7 +7,11 @@ import { AlertService, AuthenticationService } from '../services';
 import { Sha512 } from "../helpers";
 import { UserType } from "../common";
 
-@Component({templateUrl: 'login.component.html'})
+@Component({
+  selector: 'app-login',
+  templateUrl: 'login.component.html',
+  styleUrls: ['./login.component.scss']
+})
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;

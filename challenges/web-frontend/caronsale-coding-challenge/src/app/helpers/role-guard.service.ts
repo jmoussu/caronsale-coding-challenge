@@ -13,7 +13,7 @@ export class RoleGuardService implements CanActivate {
 
     if (this.auth.currentUserValue.privileges !== expectedPrivileges) {
       const user = UserType.filter((user) => {
-        if (user.expectedPrivileges === this.auth.currentUserValue.privileges) {
+        if (user.privileges === this.auth.currentUserValue.privileges) {
           return user;
         }
       })[0];
