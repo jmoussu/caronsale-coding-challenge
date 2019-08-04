@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           const user = UserType.filter((user) => {
-            if (user.type === data.type) {
+            if (user.privileges === data.privileges) {
               return user;
             }
           })[0];

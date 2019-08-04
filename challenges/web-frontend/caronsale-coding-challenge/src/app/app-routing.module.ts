@@ -13,7 +13,7 @@ const routes: Routes = [
     component: HomeSalesmanComponent,
     canActivate: [RoleGuardService],
     data: {
-      expectedType: 1,
+      expectedPrivileges: "{PUBLIC_USER}~{SALESMAN_USER}",
       location: ''
     }
   },
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: HomeDealershipComponent,
     canActivate: [RoleGuardService],
     data: {
-      expectedType: 0,
+      expectedPrivileges: "{PUBLIC_USER}~{DEALERSHIP_USER}",
       location: 'home-dealership'
     }
   },

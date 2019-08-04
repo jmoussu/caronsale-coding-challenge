@@ -8,13 +8,12 @@ export class RoleGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
     // on the data property
-    const expectedType = route.data.expectedType;
+    const expectedPrivileges = route.data.expectedPrivileges;
     const location = route.data.location;
 
-    // decode the token to get its payload
-    if (this.auth.currentUserValue.type !== expectedType) {
+    if (this.auth.currentUserValue.privileges !== expectedPrivileges) {
       const user = UserType.filter((user) => {
-        if (user.type === this.auth.currentUserValue.type) {
+        if (user.expectedPrivileges === this.auth.currentUserValue.privileges) {
           return user;
         }
       })[0];

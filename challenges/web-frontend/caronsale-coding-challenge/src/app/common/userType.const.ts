@@ -1,4 +1,4 @@
 export const UserType = [
-  { type: 0, href: 'home-dealership'},
-  { type: 1, href: 'home-salesman'},
+  { privileges: '{PUBLIC_USER}~{DEALERSHIP_USER}', href: 'home-dealership'},
+  { privileges: '{PUBLIC_USER}~{SALESMAN_USER}', href: 'home-salesman'},
 ];
