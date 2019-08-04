@@ -14,7 +14,7 @@
           {{auction.associatedVehicle.fuelType | fuel }} | {{auction.associatedVehicle.transmission | transmission}}
         </p>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary col-6 col-sm-5">{{auction.currentHighestBidValue + '€'}}</a>
+          <button href="#" class="btn btn-warning col-6 col-sm-5">{{auction.currentHighestBidValue + '€'}}</button>
           <span class="col-6 col-sm-7 card-countdown">{{auction.remainingTimeInSeconds | countdown }}</span>
         </div>
         <span></span>

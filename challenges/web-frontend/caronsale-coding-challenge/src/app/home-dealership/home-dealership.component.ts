@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { first, takeWhile, switchMap } from 'rxjs/operators';
 import { timer} from 'rxjs';
 import { AuthenticationService, AuctionsService } from "../services";
-import {Auction} from "../models/auction";
+import { AuctionModel } from "../models/auction.model";
 
 @Component({
   selector: 'app-home-dealership',
@@ -10,7 +10,7 @@ import {Auction} from "../models/auction";
   styleUrls: ['./home-dealership.component.scss']
 })
 export class HomeDealershipComponent implements OnInit {
-  public auctions:Auction[] = [];
+  public auctions:AuctionModel[] = [];
 
   constructor(
     private authenticationService: AuthenticationService,

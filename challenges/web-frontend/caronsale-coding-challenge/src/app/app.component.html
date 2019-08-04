@@ -1,7 +1,9 @@
 <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<nav class="navbar navbar-expand" *ngIf="currentUser">
   <div class="navbar-nav">
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    <a class="nav-item nav-link" (click)="logout()">
+      <i class="material-icons">exit_to_app</i>
+    </a>
   </div>
 </nav>
 
