@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SalesmanUserService } from 'src/app/services/salesman/salesman-user.service';
 import { Auction } from 'src/app/models/auction';
 import { Observable, timer, Subject, of } from 'rxjs';
@@ -10,12 +10,11 @@ import { takeUntil, switchMap, catchError } from 'rxjs/operators';
   styleUrls: ['./salesman-overview.component.scss']
 })
 
-export class SalesmanOverviewComponent implements OnInit {
+export class SalesmanOverviewComponent implements OnInit, OnDestroy {
   // Kill subject to stop all requests for component
   private killTrigger: Subject<void> = new Subject();
 
   private fetchData$: Observable<Auction[]> = this.salesmanUserService.getAuctions();
-
   private refreshInterval$: Observable<string | Auction[]> = timer(0, 20000)
     .pipe(
       takeUntil(this.killTrigger),
@@ -23,18 +22,22 @@ export class SalesmanOverviewComponent implements OnInit {
       catchError(error => of('Error'))
     );
 
-  public auctions: Auction[];
+  auctions$: Subject<Auction[]> = new Subject<Auction[]>();
 
   constructor(private salesmanUserService: SalesmanUserService) { }
 
   ngOnInit() {
     this.refreshInterval$.subscribe((auctions: Auction[]) => {
       console.log(auctions);
-      this.auctions = auctions;
+      this.auctions$.next(auctions);
     });
   }
 
-  ngOnDestrio() {
+  ngOnDestroy() {
     this.killTrigger.next();
+  }
+
+  trackById(index: number, auction: Auction): number {
+    return auction.id;
   }
 }

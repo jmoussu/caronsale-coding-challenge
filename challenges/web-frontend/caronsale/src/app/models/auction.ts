@@ -1,5 +1,8 @@
 import { Deserializable } from './deserializable';
 import { Vehicle } from './vehicle';
+import { Observable, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 export class Auction implements Deserializable {
   public label: string;
@@ -52,7 +55,19 @@ export class Auction implements Deserializable {
 
   public id: number;
 
+  public timeRemaining$: Observable<string> = timer(0, 1000).pipe(
+    map(() => {
+      const end = moment(this.endingTime);
+      const diff = moment.duration(end.diff(moment()));
+      return `${diff.days()} ${diff.days() < 2 ? 'day' : 'days'} ${diff.hours()}:${diff.minutes()}:${diff.seconds()} hours`;
+    })
+  );
+
   deserialize(input: any): this {
     return Object.assign(this, input);
+  }
+
+  calculateRemainingTime(time: string): string {
+    return '';
   }
 }
