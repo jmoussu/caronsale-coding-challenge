@@ -1,7 +1,7 @@
 import { Deserializable } from './deserializable';
 import { Vehicle } from './vehicle';
 
-export class Acution implements Deserializable {
+export class Auction implements Deserializable {
   public label: string;
   public state: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 
