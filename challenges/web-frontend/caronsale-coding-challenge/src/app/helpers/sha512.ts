@@ -1,24 +1,20 @@
-﻿import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+﻿import {Injectable} from '@angular/core';
+import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 
-import { AuthenticationService } from '../services';
+import * as sha512 from 'js-sha512';
 
-@Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
-    constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
-    ) {}
+@Injectable({providedIn: 'root'})
+export class Sha512 {
+  constructor() {
+  }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.currentUserValue;
-        if (currentUser) {
-            // authorised so return true
-            return true;
-        }
+  hashPasswordWithCycles(plainTextPassword: string, cycles: number): string {
+    let hash = `${plainTextPassword}`;
 
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-        return false;
+    for (let i = 0; i < cycles; i++) {
+      hash = sha512.sha512(hash);
     }
+
+    return hash;
+  }
 }

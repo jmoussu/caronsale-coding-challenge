@@ -1,1 +1,1 @@
-export * from './home-salesman.component';
+export * from './home-dealership.component';
