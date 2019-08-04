@@ -23,12 +23,14 @@ export class SalesmanOverviewComponent implements OnInit, OnDestroy {
   );
 
   auctions$: Subject<Auction[]> = new Subject<Auction[]>();
+  didLoadData = false;
 
   constructor(private salesmanUserService: SalesmanUserService) { }
 
   ngOnInit() {
     this.refreshInterval$.subscribe((auctions: Auction[]) => {
       this.auctions$.next(auctions);
+      this.didLoadData = true;
     });
   }
 

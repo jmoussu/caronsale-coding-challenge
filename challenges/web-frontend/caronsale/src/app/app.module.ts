@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -16,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavBarSalesmanComponent } from './common/nav-bar-salesman/nav-bar-salesman.component';
 import { CardAuctionComponent } from './common/card-auction/card-auction.component';
 import { NavBarDealershipComponent } from './common/nav-bar-dealership/nav-bar-dealership.component';
+import { CardAuctionSkeletonComponent } from './common/card-auction-skeleton/card-auction-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { NavBarDealershipComponent } from './common/nav-bar-dealership/nav-bar-d
     NavBarSalesmanComponent,
     CardAuctionComponent,
     NavBarDealershipComponent,
+    CardAuctionSkeletonComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,8 @@ import { NavBarDealershipComponent } from './common/nav-bar-dealership/nav-bar-d
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,6 @@ import { Observable, timer, Subject, of } from 'rxjs';
 import { takeUntil, switchMap, catchError } from 'rxjs/operators';
 import { DealershipUserService } from 'src/app/services/dealership/dealership-user.service';
 
-
 @Component({
   selector: 'app-dealership-overview',
   templateUrl: './dealership-overview.component.html',
@@ -23,12 +22,14 @@ export class DealershipOverviewComponent implements OnInit, OnDestroy {
   );
 
   auctions$: Subject<Auction[]> = new Subject<Auction[]>();
+  didLoadData = false;
 
   constructor(private dealershipService: DealershipUserService) { }
 
   ngOnInit() {
     this.refreshInterval$.subscribe((auctions: Auction[]) => {
       this.auctions$.next(auctions);
+      this.didLoadData = true;
     });
   }
 

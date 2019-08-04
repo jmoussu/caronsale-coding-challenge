@@ -1,6 +1,11 @@
 <app-nav-bar-dealership></app-nav-bar-dealership>
 <div class="container">
   <div class="card-container">
+    <div *ngFor="let key of  [1,2]">
+      <div *ngIf="!didLoadData">
+        <app-card-auction-skeleton></app-card-auction-skeleton>
+      </div>
+    </div>
     <div *ngFor="let auction of auctions$ | async; trackBy: trackById;">
       <app-card-auction [auction]="auction" ></app-card-auction>
     </div>
