@@ -12,7 +12,7 @@
         Email is <strong>required</strong>
       </mat-error>
       <mat-error *ngIf="hasLoginError">
-        User with the email address was not found
+        User was not found
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form-field" appearance="fill">
@@ -23,7 +23,7 @@
         Password is <strong>required</strong>
       </mat-error>
       <mat-error *ngIf="hasLoginError">
-        Given password might be wrong
+        Password might be wrong
       </mat-error>
     </mat-form-field>
     <button mat-flat-button color="primary" type="submit">Sign in</button>
