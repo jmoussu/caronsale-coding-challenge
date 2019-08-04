@@ -49,9 +49,9 @@ export class Auction implements Deserializable {
   public urlToPickUpAuthorizationDocument: string;
   public buyerComplaint: '0' | '1' | '2' | '3' | '4' | '5';
 
-  public _fk_associatedVehicle: number;
-  public _fk_associatedDealershipUser: number;
-  public _fk_highestBiddingSalesmanUser: number;
+  // public _fk_associatedVehicle: number;
+  // public _fk_associatedDealershipUser: number;
+  // public _fk_highestBiddingSalesmanUser: number;
 
   public id: number;
 

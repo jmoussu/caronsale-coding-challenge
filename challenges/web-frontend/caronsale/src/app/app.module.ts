@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NavBarSalesmanComponent } from './common/nav-bar-salesman/nav-bar-salesman.component';
 import { CardAuctionComponent } from './common/card-auction/card-auction.component';
+import { NavBarDealershipComponent } from './common/nav-bar-dealership/nav-bar-dealership.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CardAuctionComponent } from './common/card-auction/card-auction.compone
     NavBarComponent,
     HomeComponent,
     NavBarSalesmanComponent,
-    CardAuctionComponent
+    CardAuctionComponent,
+    NavBarDealershipComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,7 +20,7 @@ export class SalesmanOverviewComponent implements OnInit, OnDestroy {
       takeUntil(this.killTrigger),
       switchMap(() => this.fetchData$),
       catchError(error => of('Error'))
-    );
+  );
 
   auctions$: Subject<Auction[]> = new Subject<Auction[]>();
 
@@ -28,7 +28,6 @@ export class SalesmanOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.refreshInterval$.subscribe((auctions: Auction[]) => {
-      console.log(auctions);
       this.auctions$.next(auctions);
     });
   }
