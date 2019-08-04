@@ -1,0 +1,54 @@
+@import '../../../mixins.scss';
+
+.card-auction {
+  background-color: white;
+  -webkit-box-shadow: 0px 4px 30px 5px rgba(0,0,0,0.05);
+  -moz-box-shadow: 0px 4px 30px 5px rgba(0,0,0,0.05);
+  box-shadow: 0px 4px 30px 5px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  padding: 8px;
+
+  .border {
+    border: 2px solid #673AB7;
+  } 
+}
+
+img {
+  height: 150px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+h6 {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  line-height: 1.25;
+  min-height: 25px;
+}
+
+.auction-price {
+    margin-bottom: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    color: white;
+    position: relative;
+
+    .check-circle {
+      position: absolute;
+      right: 16px;
+      top: 8px;
+      cursor: default;
+    }
+}
+
+p {
+  color: #9E9E9E;
+  font-variant-numeric: normal;
+  margin: 0 8px 0 8px;
+  text-align: center;
+}
+
+.remaining-time {
+  color: #757575;
+}

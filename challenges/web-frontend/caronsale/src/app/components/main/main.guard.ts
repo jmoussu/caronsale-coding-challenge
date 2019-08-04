@@ -18,7 +18,7 @@ export class MainGuard implements CanActivate {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
 
-      if (this.authService.isLoggedIn || token !== undefined && userId !== undefined) {
+      if (this.authService.isLoggedIn || token !== null && userId !== null) {
         this.authService.isLoggedIn = true;
         return true;
       } else {

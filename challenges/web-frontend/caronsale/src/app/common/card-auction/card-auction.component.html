@@ -1,0 +1,25 @@
+<div class="card-auction">
+  <img [src]="auction.associatedVehicle.imageUrls.front.url" alt="">
+  <h6>{{ auction.label }}</h6>
+  <p class="body2">
+    {{ auction.associatedVehicle.ez }} | 
+    {{ auction.associatedVehicle.mileageInKm }} km | 
+    {{ auction.associatedVehicle.fuelType == '0' ? 'diesel' : 'petrol' }} |
+    {{ auction.associatedVehicle.transmission == '0' ? 'manual' : 'automatic' }} 
+  </p>
+  <h6 class="auction-price" [ngStyle]="auction.amIHighestBidder 
+    ? { 'background-color':  '#2196F3' } 
+    : { 'background-color': '#673AB7' }" 
+  >
+    {{ auction.currentHighestBidValue }} €
+    <mat-icon 
+      matTooltip="You are currently the highest bidder"
+      class="check-circle" 
+      matSuffix 
+      *ngIf="auction.amIHighestBidder" 
+    >
+      check_circle_outline
+    </mat-icon>
+  </h6>
+  <h6 class="remaining-time">{{ (auction.timeRemaining$ | async) }}</h6>
+</div>
