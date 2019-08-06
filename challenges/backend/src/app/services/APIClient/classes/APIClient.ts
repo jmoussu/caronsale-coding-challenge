@@ -1,10 +1,20 @@
 import axios, { AxiosInstance } from 'axios';
 
-import IAPIClient from '../interfaces/IAPIClient';
-import { RequestConfiguration, APIResponse, APIError } from '../types';
+import { IAPIClient } from '../interfaces';
+import {
+  RequestConfiguration,
+  APIResponse,
+  APIError,
+  CallbackPreHookRequest,
+  CallbackOnErrorRequest,
+  CallbackHookResponse,
+  CallbackOnErrorResponse
+} from '../types';
 
 export default class APIClient implements IAPIClient {
   private _client: AxiosInstance;
+  private _requestHooksId: number;
+  private _responseHooksId: number;
   private static _instance: APIClient;
 
   constructor(baseURL?: string, headers?: object) {
@@ -27,6 +37,31 @@ export default class APIClient implements IAPIClient {
 
   setBaseUrl(baseUrl: string): void {
     this._client.defaults.baseURL = baseUrl;
+  }
+
+  setRequestHooks(
+    pre: CallbackPreHookRequest,
+    onError: CallbackOnErrorRequest
+  ): void {
+    this._requestHooksId = this._client.interceptors.request.use(pre, onError);
+  }
+
+  setResponseHooks(
+    pre: CallbackHookResponse,
+    onError: CallbackOnErrorResponse
+  ) {
+    this._responseHooksId = this._client.interceptors.response.use(
+      pre,
+      onError
+    );
+  }
+
+  removeRequestHooks(): void {
+    this._client.interceptors.request.eject(this._requestHooksId);
+  }
+
+  removeResponseHooks(): void {
+    this._client.interceptors.response.eject(this._responseHooksId);
   }
 
   getClientHeaders(): object {

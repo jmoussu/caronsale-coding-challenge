@@ -14,19 +14,32 @@ export class AuctionMonitorApp {
 
   public constructor(
     @inject(DependencyIdentifier.LOGGER) private _logger: ILogger,
-    @inject(DependencyIdentifier.CARONSALE_CLIENT) private _cosclient: CarOnSaleClient
+    @inject(DependencyIdentifier.CARONSALE_CLIENT)
+    private _cosclient: CarOnSaleClient
   ) {}
 
   public async start(): Promise<void> {
     this._logger.log(`Auction Monitor started.`);
 
     // TODO: Retrieve auctions and display aggregated information (see README.md)
-    this.salesman = new Salesman(this._email, this._password, this._cosclient);
-    await this.salesman.retrieveAuctions();
-    const progressAvg: number = this.salesman.getAvgAuctionProgress();
-    const avgBids: number = this.salesman.getAvgBids();
+    try {
+      this.salesman = new Salesman(
+        this._email,
+        this._password,
+        this._cosclient
+      );
+      await this.salesman.retrieveAuctions();
+      const progressAvg: number = this.salesman.getAvgAuctionProgress();
+      const avgBids: number = this.salesman.getAvgBids();
 
-    this._logger.log(`${avgBids}`);
-    this._logger.log(`${progressAvg}`);
+      this._logger.log(`${avgBids}`);
+      this._logger.log(`${progressAvg}`);
+
+      process.exit(0);
+    } catch (error) {
+      this._logger.log(`ERROR!`);
+      this._logger.log(error)
+      process.exit(1);
+    }
   }
 }

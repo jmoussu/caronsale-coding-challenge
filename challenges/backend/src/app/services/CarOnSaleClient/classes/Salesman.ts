@@ -4,7 +4,6 @@
 import CarOnSaleClient from './CarOnSaleClient';
 import Auction from './Auction';
 import { ISalesman } from '../interfaces';
-import { DependencyIdentifier } from '../../../DependencyIdentifiers';
 
 export default class Salesman implements ISalesman {
   private _userId: string;
