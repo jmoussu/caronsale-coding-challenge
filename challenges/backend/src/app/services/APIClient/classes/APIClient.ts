@@ -7,6 +7,10 @@ export default class APIClient implements IAPIClient {
   private _client: AxiosInstance;
   private static _instance: APIClient;
 
+  constructor(baseURL?: string, headers?: object) {
+    this._client = axios.create({ baseURL, headers });
+  }
+
   static getInstance(baseUrl?: string) {
     if (!this._instance) {
       this._instance = new APIClient(baseUrl);
@@ -15,8 +19,10 @@ export default class APIClient implements IAPIClient {
     return this._instance;
   }
 
-  constructor(baseURL?: string, headers?: object) {
-    this._client = axios.create({ baseURL, headers });
+  private _getRequestConfig(config: RequestConfiguration): any {
+    const { query, headers } = config || ({} as RequestConfiguration);
+
+    return { params: query, headers };
   }
 
   setBaseUrl(baseUrl: string): void {
@@ -29,7 +35,7 @@ export default class APIClient implements IAPIClient {
 
   async put(body: object, url?: string, config?: RequestConfiguration) {
     try {
-      const { query, headers } = config;
+      const { query, headers } = this._getRequestConfig(config);
 
       const response: APIResponse = await this._client.put(url, body, {
         headers,
@@ -46,7 +52,7 @@ export default class APIClient implements IAPIClient {
 
   async get(url?: string, config?: RequestConfiguration) {
     try {
-      const { query, headers } = config;
+      const { query, headers } = this._getRequestConfig(config);
 
       const response: APIResponse = await this._client.get(url, {
         headers,

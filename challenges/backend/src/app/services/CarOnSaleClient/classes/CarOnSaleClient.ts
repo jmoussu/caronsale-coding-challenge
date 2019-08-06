@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
 import { sha512 } from 'js-sha512';
 
@@ -14,10 +15,10 @@ const { LOGGER } = DependencyIdentifier;
 export default class CarOnSaleClient implements ICarOnSaleClient {
   private _apiClient: APIClient;
   private _logger: ILogger;
-  readonly _baseURL: string =
+  private readonly _baseURL: string =
     'caronsale-backend-service-dev.herokuapp.com/api/v1';
-  readonly _auctionsURL: string = '/_count';
-  readonly _loginURL: string = '/authentication';
+  private readonly _auctionsURL: string = '/auction/salesman/';
+  private readonly _loginURL: string = '/authentication';
 
   constructor(@inject(LOGGER) logger: ILogger) {
     this._logger = logger;
@@ -28,12 +29,12 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
     const { login } = config;
     const url: string = login
       ? `${this._loginURL}/${param}`
-      : `/${param}${this._auctionsURL}`;
+      : `${this._auctionsURL}/${param}/_count`;
 
     return url;
   }
 
-  private hashString(str: string, cycles: number): string {
+  hashString(str: string, cycles: number): string {
     let hash = str;
 
     for (let index = 0; index < cycles; index++) {
@@ -50,11 +51,12 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
   ): Promise<Array<any>> {
     const url = this.buildURL(userMailId, { getAuctions: true });
 
-    const auctions: any = this._apiClient.get(url, {
+    const {
+      data: { auctions }
+    } = await this._apiClient.get(url, {
       headers: { [userId]: token }
     });
 
-    // TODO: Make every auction an instance of Auction
     return auctions;
   }
 

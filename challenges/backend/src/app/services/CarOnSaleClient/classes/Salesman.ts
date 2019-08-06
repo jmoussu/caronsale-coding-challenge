@@ -1,15 +1,10 @@
 // TODO: Finish the implementation of the login and the APIClient
 // TODO: Make test and run the app
-import { injectable, inject } from 'inversify';
 
 import CarOnSaleClient from './CarOnSaleClient';
 import Auction from './Auction';
 import { ISalesman } from '../interfaces';
-import { BuildURLConfig, LoginResponseType } from '../types';
 import { DependencyIdentifier } from '../../../DependencyIdentifiers';
-import { unwatchFile } from 'fs';
-
-const { CARONSALE_CLIENT } = DependencyIdentifier;
 
 export default class Salesman implements ISalesman {
   private _userId: string;
@@ -19,14 +14,41 @@ export default class Salesman implements ISalesman {
   private _cosclient: CarOnSaleClient;
   private _auctions: Array<Auction>;
 
-  constructor(
-    userEmail: string,
-    password: string,
-    @inject(CARONSALE_CLIENT) client: CarOnSaleClient
-  ) {
+  constructor(userEmail: string, password: string, cosclient: CarOnSaleClient) {
+    this._cosclient = cosclient;
     this._userEmail = userEmail;
-    this._password = password;
-    this._cosclient = client;
+    this._password = this._cosclient.hashString(password, 5);
+  }
+
+  private _parseRawAuctions(auction: any): Auction {
+    return new Auction(auction);
+  }
+
+  async init() {
+    const { userid, token } = await this._cosclient.loginSalesman(
+      this._userEmail,
+      this._password
+    );
+
+    this._token = token;
+    this._userId = userid;
+
+    await this.retrieveAuctions();
+  }
+
+  async retrieveAuctions() {
+    const isAuthenticated: boolean =
+      Boolean(this._token) && Boolean(this._userId);
+
+    if (!isAuthenticated) return this.init();
+
+    const auctions: Array<any> = await this._cosclient.getRunningAuctions(
+      this._userEmail,
+      this._userId,
+      this._token
+    );
+
+    this._auctions = auctions.map(this._parseRawAuctions);
   }
 
   getQtyOfAuctions(): number {

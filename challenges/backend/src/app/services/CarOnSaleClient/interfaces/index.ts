@@ -9,6 +9,8 @@ export interface IAuction {
 }
 
 export interface ISalesman {
+  init(): Promise<void>;
+  retrieveAuctions(): Promise<void>;
   getQtyOfAuctions(): number;
   getAllAuctions(): Array<any>;
   getAnAuction(id: number): any;
