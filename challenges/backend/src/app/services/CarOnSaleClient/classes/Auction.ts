@@ -4,27 +4,34 @@ import { AuctionInitialData } from '../types';
 export default class Auction implements IAuction {
   private _id: number;
   private _numBids: number;
-  private _currentHighestBid: number;
+  private _currentHighestBidValue: number;
   private _minimumRequiredAsk: number;
-  public auctionProgress: number;
+  private _auctionProgress: number;
 
   constructor(data?: AuctionInitialData) {
-    const { id, currentHighestBid, minimumRequiredAsk, numBids } = data;
+    const { id, currentHighestBidValue, minimumRequiredAsk, numBids } = data;
 
     this._id = id;
-    this._minimumRequiredAsk = minimumRequiredAsk;
+    this._minimumRequiredAsk = minimumRequiredAsk || 0;
     this._numBids = numBids;
-    this._currentHighestBid = currentHighestBid;
-    this.auctionProgress = this.getAuctionProgress();
+    this._currentHighestBidValue = currentHighestBidValue;
+    this._auctionProgress = this.getAuctionProgress();
+  }
+
+  private _validateMinimumRequiredAsk(): boolean {
+    return Boolean(this._minimumRequiredAsk);
   }
 
   getAuctionProgress(): number {
-    if (this.auctionProgress) return this.auctionProgress;
+    if (Boolean(this._auctionProgress)) return this._auctionProgress;
 
-    const result: number = Math.floor(
-      (this._currentHighestBid * 100) / this._minimumRequiredAsk
-    );
+    if (!this._validateMinimumRequiredAsk()) return 100;
 
+    const rawResult: number =
+      (this._currentHighestBidValue * 100) / this._minimumRequiredAsk;
+    const rawResultAsString: string = rawResult.toFixed(2);
+
+    const result: number = parseFloat(rawResultAsString);
     return result;
   }
 
