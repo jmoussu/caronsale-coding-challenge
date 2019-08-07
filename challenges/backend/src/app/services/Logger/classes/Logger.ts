@@ -7,7 +7,7 @@ import { ILogger } from '../interface/ILogger';
 export class Logger implements ILogger {
   public constructor() {}
 
-  public log(message: string): void {
-    console.log(`[LOG]: ${message}`);
+  public log(message: string, ...args): void {
+    console.log(`[LOG]: ${message}`, ...args);
   }
 }
