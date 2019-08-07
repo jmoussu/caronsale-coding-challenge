@@ -11,6 +11,6 @@ export type LoginResponseType = {
 export type AuctionInitialData = {
   id?: number;
   numBids?: number;
-  currentHighestBid?: number;
+  currentHighestBidValue?: number;
   minimumRequiredAsk?: number;
 };
