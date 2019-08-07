@@ -7,7 +7,7 @@ import "mocha-sinon";
 
 const expect = chai.expect;
 const expectedRunningAuctions = 2;
-const mockAuctions: Auction[] = [new Auction(1,0,0), new Auction(2,10,1)];
+const mockAuctions: Auction[] = [new Auction(1,0,0,2), new Auction(2,10,1,2)];
 
 describe("Get running auctions", () => {
     const logger = {

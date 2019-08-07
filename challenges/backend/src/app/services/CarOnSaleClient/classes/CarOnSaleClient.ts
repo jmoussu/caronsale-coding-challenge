@@ -48,7 +48,7 @@ export class CarOnSaleClient implements ICarOnSaleClient {
 
         // prepare the list of auctions
         const listAuctions = auctions.map((element) => {
-            const auction = new Auction(element.numBids, element.minimumRequiredAsk, element.currentHighestBidValue);
+            const auction = new Auction(element.numBids, element.minimumRequiredAsk, element.currentHighestBidValue, auctions.length);
             return auction;
         });
         return Promise.resolve(listAuctions);

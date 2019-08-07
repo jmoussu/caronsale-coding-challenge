@@ -10,7 +10,7 @@ export class StubCarOnSaleClient implements ICarOnSaleClient {
         if(StubCarOnSaleClient.fail)  {
             return Promise.resolve(null);
         }
-        const auctions: Auction[] = [new Auction(1,0,0), new Auction(2,10,1)];
+        const auctions: Auction[] = [new Auction(1,0,0,2), new Auction(2,10,1,2)];
         return Promise.resolve(auctions);
     }
 }
