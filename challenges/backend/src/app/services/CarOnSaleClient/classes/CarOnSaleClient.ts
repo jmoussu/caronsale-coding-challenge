@@ -41,7 +41,7 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
     const { login } = config;
     const url: string = login
       ? `${this._loginURL}/${param}`
-      : `${this._auctionsURL}${param}/_count`;
+      : `${this._auctionsURL}${param}/_all`;
 
     return url;
   }
@@ -97,13 +97,11 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
   ): Promise<Array<any>> {
     const url = this._buildURL(userMailId, { getAuctions: true });
 
-    const {
-      data: { auctions }
-    } = await this._apiClient.get(url, {
-      headers: { authorization: `${userId}/${token}` }
+    const { data } = await this._apiClient.get(url, {
+      headers: { authtoken: token, userid: userId }
     });
 
-    return auctions;
+    return data;
   }
 
   async loginSalesman(email: string, hash: string): Promise<LoginResponseType> {
@@ -111,7 +109,6 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
     const url = this._buildURL(email, { login: true });
     const { data } = await this._apiClient.put({ password: hash }, url);
 
-    this._logger.log(JSON.stringify(data));
     const { token, userId } = data;
     const loginResponse: LoginResponseType = { token, userid: userId };
 
