@@ -22,7 +22,7 @@ export class RunningAuctionsService implements IRunningAuctionsService {
         logger.log(`number of auctions: ${listAuctions.length}`);
         listAuctions.forEach((auction, index) => {
             logger.log(`average number of bids on auction ${index}: ${auction.getAvgNumberBids()}`);
-            logger.log(`average percentage of auction${index} progress: ${auction.getAvgPercentAuctionsProgress()}`);
+            logger.log(`average percentage of auction ${index} progress: ${auction.getAvgPercentAuctionsProgress()}`);
         });
         return Promise.resolve(0);
     }

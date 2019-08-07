@@ -46,7 +46,7 @@ describe("Get running auctions", () => {
         it("should return the average number of bids on an auction and the average percentage of the auction progress", () => {
             for(let i = 0; i < mockAuctions.length; i++) {
                 expect(logger.log.calledWith(`average number of bids on auction ${i}: ${mockAuctions[i].getAvgNumberBids()}`)).to.equal(true);
-                expect(logger.log.calledWith(`average percentage of auction${i} progress: ${mockAuctions[i].getAvgPercentAuctionsProgress()}`)).to.equal(true);
+                expect(logger.log.calledWith(`average percentage of auction ${i} progress: ${mockAuctions[i].getAvgPercentAuctionsProgress()}`)).to.equal(true);
             }
         });
     });

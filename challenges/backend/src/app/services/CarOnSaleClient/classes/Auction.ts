@@ -13,7 +13,9 @@ export class Auction implements IAuction {
     }
 
     public getAvgPercentAuctionsProgress(): number {
-        return this.minimumRequiredAsk ? (this.currentHighestBidValue / this.minimumRequiredAsk) * 100 : 0;
+        const avgPercentage = this.minimumRequiredAsk ? (this.currentHighestBidValue / this.minimumRequiredAsk) * 100 : 0;
+        // round number to 2 decimals place
+        return Math.round(avgPercentage * 100) / 100;
     }
     public getAvgNumberBids(): number {
         return this.numBids/this.numAuctions;

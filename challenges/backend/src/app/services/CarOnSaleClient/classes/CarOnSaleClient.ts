@@ -18,11 +18,10 @@ export class CarOnSaleClient implements ICarOnSaleClient {
     }
 
     public async getRunningAuctions(): Promise<Auction[]> {
-        const userMailId = "salesman@random.com";
         // authenticate salesman
         const hashPassword = CarOnSaleClient.hashPasswordWithCycles(ServiceSettings.PLAINTEXTPASSWORD, ServiceSettings.CYCLES);
         const authenticationResponse = await request
-            .put(`${ServiceSettings.CARONSALEAPI}/authentication/${userMailId}`)
+            .put(`${ServiceSettings.CARONSALEAPI}/authentication/${ServiceSettings.USERMAILID}`)
             .send({password: hashPassword, meta: "userId"})
             .set('accept','application/json')
             .set('Content-Type','application/json');
@@ -39,7 +38,7 @@ export class CarOnSaleClient implements ICarOnSaleClient {
             "authtoken":token,
         };
         const response = await request
-            .get(`${ServiceSettings.CARONSALEAPI}/auction/salesman/${userMailId}/_all?state=running`)
+            .get(`${ServiceSettings.CARONSALEAPI}/auction/salesman/${ServiceSettings.USERMAILID}/_all?state=running`)
             .set(header);
         if(response && response.status !== 200) {
             return Promise.resolve(null);
