@@ -1,6 +1,3 @@
-// TODO: Finish the implementation of the login and the APIClient
-// TODO: Make test and run the app
-
 import CarOnSaleClient from './CarOnSaleClient';
 import Auction from './Auction';
 import { ISalesman } from '../interfaces';
@@ -22,6 +19,13 @@ export default class Salesman implements ISalesman {
 
   private _parseRawAuctions(auction: any): Auction {
     return new Auction(auction);
+  }
+
+  private _fixToTwoDecimals(num: number): number {
+    const rawNumber: string = num.toFixed(2);
+
+    const result: number = parseFloat(rawNumber);
+    return result;
   }
 
   async init() {
@@ -71,7 +75,9 @@ export default class Salesman implements ISalesman {
       0
     );
 
-    const avg: number = totalOfBids / this.getQtyOfAuctions();
+    const qtyOfAuctions: number = this.getQtyOfAuctions();
+    const rawAvg: number = totalOfBids / qtyOfAuctions;
+    const avg: number = this._fixToTwoDecimals(rawAvg);
 
     return avg;
   }
@@ -82,8 +88,10 @@ export default class Salesman implements ISalesman {
       0
     );
 
-    const avg: number = totalProgress / this.getQtyOfAuctions();
+    const qtyOfAuctions: number = this.getQtyOfAuctions();
+    const rawAvg: number = totalProgress / qtyOfAuctions;
+    const raw: number = this._fixToTwoDecimals(rawAvg);
 
-    return avg;
+    return raw;
   }
 }
