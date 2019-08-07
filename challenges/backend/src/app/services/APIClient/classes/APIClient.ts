@@ -1,32 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
 
 import { IAPIClient } from '../interfaces';
-import {
-  RequestConfiguration,
-  APIResponse,
-  APIError,
-  CallbackPreHookRequest,
-  CallbackOnErrorRequest,
-  CallbackHookResponse,
-  CallbackOnErrorResponse
-} from '../types';
+import { RequestConfiguration, APIResponse } from '../types';
 
 export default class APIClient implements IAPIClient {
   private _client: AxiosInstance;
-  private _requestHooksId: number;
-  private _responseHooksId: number;
-  private static _instance: APIClient;
 
   constructor(baseURL?: string, headers?: object) {
     this._client = axios.create({ baseURL, headers });
-  }
-
-  static getInstance(baseUrl?: string) {
-    if (!this._instance) {
-      this._instance = new APIClient(baseUrl);
-    }
-
-    return this._instance;
   }
 
   private _getRequestConfig(config: RequestConfiguration): any {
@@ -37,31 +18,6 @@ export default class APIClient implements IAPIClient {
 
   setBaseUrl(baseUrl: string): void {
     this._client.defaults.baseURL = baseUrl;
-  }
-
-  setRequestHooks(
-    pre: CallbackPreHookRequest,
-    onError: CallbackOnErrorRequest
-  ): void {
-    this._requestHooksId = this._client.interceptors.request.use(pre, onError);
-  }
-
-  setResponseHooks(
-    pre: CallbackHookResponse,
-    onError: CallbackOnErrorResponse
-  ) {
-    this._responseHooksId = this._client.interceptors.response.use(
-      pre,
-      onError
-    );
-  }
-
-  removeRequestHooks(): void {
-    this._client.interceptors.request.eject(this._requestHooksId);
-  }
-
-  removeResponseHooks(): void {
-    this._client.interceptors.response.eject(this._responseHooksId);
   }
 
   getClientHeaders(): object {
@@ -78,9 +34,7 @@ export default class APIClient implements IAPIClient {
       });
 
       return response;
-    } catch (err) {
-      const error: APIError = err;
-
+    } catch (error) {
       throw error;
     }
   }
@@ -95,9 +49,7 @@ export default class APIClient implements IAPIClient {
       });
 
       return response;
-    } catch (err) {
-      const error: APIError = err;
-
+    } catch (error) {
       throw error;
     }
   }
