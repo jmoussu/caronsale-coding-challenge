@@ -11,6 +11,7 @@ export default class Salesman implements ISalesman {
   private _userEmail: string;
   private _token: string;
   private _cosclient: CarOnSaleClient;
+  private _isAuthenticated: boolean;
   private _auctions: Array<Auction>;
 
   constructor(userEmail: string, password: string, cosclient: CarOnSaleClient) {
@@ -32,14 +33,13 @@ export default class Salesman implements ISalesman {
     this._token = token;
     this._userId = userid;
 
+    this._isAuthenticated = true;
+
     await this.retrieveAuctions();
   }
 
   async retrieveAuctions() {
-    const isAuthenticated: boolean =
-      Boolean(this._token) && Boolean(this._userId);
-
-    if (!isAuthenticated) return this.init();
+    if (!this._isAuthenticated) return this.init();
 
     const auctions: Array<any> = await this._cosclient.getRunningAuctions(
       this._userEmail,
