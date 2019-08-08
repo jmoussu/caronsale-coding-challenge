@@ -8,7 +8,7 @@ export default class Auction implements IAuction {
   private _minimumRequiredAsk: number;
   private _auctionProgress: number;
 
-  constructor(data?: AuctionInitialData) {
+  constructor(data: AuctionInitialData) {
     const { id, currentHighestBidValue, minimumRequiredAsk, numBids } = data;
 
     this._id = id;
