@@ -3,5 +3,6 @@ export const DependencyIdentifier = {
   CARONSALE_CLIENT: 'caronsaleclient',
   API_CLIENT: 'apiclient',
   AUCTION: 'auction',
-  SALESMAN: 'salesman'
+  SALESMAN: 'salesman',
+  AXIOS_INSTANCE: 'axios',
 };

@@ -1,4 +1,4 @@
-import { LoginResponseType } from '../types';
+import { ILoginResponseType } from '../types';
 
 /**
  * This service describes an interface to access auction data from the CarOnSale API.
@@ -10,10 +10,9 @@ export interface IAuction {
 
 export interface ISalesman {
   init(): Promise<void>;
-  retrieveAuctions(): Promise<void>;
   getQtyOfAuctions(): number;
-  getAllAuctions(): Array<any>;
-  getAnAuction(id: number): any;
+  getAllAuctions(): Promise<IAuction[]>;
+  getAnAuction(id: number): IAuction;
   getAvgBids(): number;
   getAvgAuctionProgress(): number;
 }
@@ -22,10 +21,27 @@ export interface ICarOnSaleClient {
   getRunningAuctions(
     userMailId: string,
     userId: string,
-    token: string
-  ): Promise<Array<any> /* TODO: Introduce a type */>;
+    token: string,
+  ): Promise<any[]>;
   loginSalesman(
     email: string,
-    hash: string
-  ): Promise<LoginResponseType> /* TODO: Implement a Type */;
+    hash: string,
+  ): Promise<ILoginResponseType>;
+}
+
+export interface IBuildURLConfig {
+  login?: boolean;
+  getAuctions?: boolean;
+}
+
+export interface ILoginResponseType {
+  token: string;
+  userid: string;
+}
+
+export interface IAuctionInitialData {
+  id?: number;
+  numBids?: number;
+  currentHighestBidValue?: number;
+  minimumRequiredAsk?: number;
 }

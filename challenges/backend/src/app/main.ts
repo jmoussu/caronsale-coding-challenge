@@ -4,14 +4,14 @@ import { ILogger } from './services/Logger/interface/ILogger';
 import {
   IAuction,
   ISalesman,
-  ICarOnSaleClient
+  ICarOnSaleClient,
 } from './services/CarOnSaleClient/interfaces';
 import { IAPIClient } from './services/APIClient/interfaces';
 
 import {
   Auction,
   Salesman,
-  CarOnSaleClient
+  CarOnSaleClient,
 } from './services/CarOnSaleClient/classes';
 import { Logger } from './services/Logger/classes/Logger';
 import { APIClient } from './services/APIClient/classes';
@@ -23,7 +23,7 @@ import { DependencyIdentifier } from './DependencyIdentifiers';
  * Create the DI container.
  */
 const container = new Container({
-  defaultScope: 'Singleton'
+  defaultScope: 'Singleton',
 });
 
 /*

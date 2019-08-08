@@ -3,18 +3,18 @@ import Auction from './Auction';
 import { ISalesman } from '../interfaces';
 
 export default class Salesman implements ISalesman {
-  private _userId: string;
-  private _password: string;
-  private _userEmail: string;
-  private _token: string;
-  private _cosclient: CarOnSaleClient;
-  private _isAuthenticated: boolean;
-  private _auctions: Array<Auction>;
+  private userId: string;
+  private password: string;
+  private userEmail: string;
+  private token: string;
+  private cosClient: CarOnSaleClient;
+  private isAuthenticated: boolean;
+  private auctions: Auction[];
 
-  constructor(userEmail: string, password: string, cosclient: CarOnSaleClient) {
-    this._cosclient = cosclient;
-    this._userEmail = userEmail;
-    this._password = this._cosclient.hashString(password, 5);
+  public constructor(userEmail: string, password: string, cosclient: CarOnSaleClient) {
+    this.cosClient = cosclient;
+    this.userEmail = userEmail;
+    this.password = this.cosClient.hashString(password, 5);
   }
 
   private _parseRawAuctions(auction: any): Auction {
@@ -28,51 +28,56 @@ export default class Salesman implements ISalesman {
     return result;
   }
 
-  async init() {
-    const { userid, token } = await this._cosclient.loginSalesman(
-      this._userEmail,
-      this._password
+  private async _retrieveAuctions(): Promise<void> {
+    if (!this.isAuthenticated) { return await this.init(); }
+
+    const auctions: any[] = await this.cosClient.getRunningAuctions(
+      this.userEmail,
+      this.userId,
+      this.token,
     );
 
-    this._token = token;
-    this._userId = userid;
-
-    this._isAuthenticated = true;
-
-    await this.retrieveAuctions();
+    this.auctions = auctions.map(this._parseRawAuctions);
   }
 
-  async retrieveAuctions() {
-    if (!this._isAuthenticated) return this.init();
-
-    const auctions: Array<any> = await this._cosclient.getRunningAuctions(
-      this._userEmail,
-      this._userId,
-      this._token
+  public async init(): Promise<void> {
+    const { userid, token } = await this.cosClient.loginSalesman(
+      this.userEmail,
+      this.password,
     );
 
-    this._auctions = auctions.map(this._parseRawAuctions);
+    this.token = token;
+    this.userId = userid;
+
+    this.isAuthenticated = true;
+
+    await this._retrieveAuctions();
   }
 
-  getQtyOfAuctions(): number {
-    return this._auctions.length;
+  public getQtyOfAuctions(): number {
+    return this.auctions.length;
   }
 
-  getAllAuctions(): Array<Auction> {
-    return this._auctions;
+  public async getAllAuctions(): Promise<Auction[]> {
+    if (!this.auctions) {
+      await this._retrieveAuctions();
+    }
+
+    return this.auctions;
   }
-  getAnAuction(id: number): Auction {
-    const auction: Auction = this._auctions.filter(auction =>
-      auction.compareId(id)
+
+  public getAnAuction(id: number): Auction {
+    const auction: Auction = this.auctions.filter((auctionInArray) =>
+      auctionInArray.compareId(id),
     )[0];
 
     return auction;
   }
 
-  getAvgBids(): number {
-    const totalOfBids: number = this._auctions.reduce(
+  public getAvgBids(): number {
+    const totalOfBids: number = this.auctions.reduce(
       (acc, auction) => acc + auction.getTotalBids(),
-      0
+      0,
     );
 
     const qtyOfAuctions: number = this.getQtyOfAuctions();
@@ -82,10 +87,10 @@ export default class Salesman implements ISalesman {
     return avg;
   }
 
-  getAvgAuctionProgress(): number {
-    const totalProgress: number = this._auctions.reduce(
+  public getAvgAuctionProgress(): number {
+    const totalProgress: number = this.auctions.reduce(
       (total, auction) => total + auction.getAuctionProgress(),
-      0
+      0,
     );
 
     const qtyOfAuctions: number = this.getQtyOfAuctions();

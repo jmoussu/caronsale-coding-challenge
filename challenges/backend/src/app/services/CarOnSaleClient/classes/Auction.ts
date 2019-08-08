@@ -1,45 +1,48 @@
-import { IAuction } from '../interfaces';
-import { AuctionInitialData } from '../types';
+import { IAuction, IAuctionInitialData } from '../interfaces';
 
 export default class Auction implements IAuction {
-  private _id: number;
-  private _numBids: number;
-  private _currentHighestBidValue: number;
-  private _minimumRequiredAsk: number;
-  private _auctionProgress: number;
+  private id: number;
+  private numBids: number;
+  private currentHighestBidValue: number;
+  private minimumRequiredAsk: number;
+  private auctionProgress: number;
 
-  constructor(data: AuctionInitialData) {
+  public constructor(data: IAuctionInitialData) {
     const { id, currentHighestBidValue, minimumRequiredAsk, numBids } = data;
 
-    this._id = id;
-    this._minimumRequiredAsk = minimumRequiredAsk || 0;
-    this._numBids = numBids;
-    this._currentHighestBidValue = currentHighestBidValue;
-    this._auctionProgress = this.getAuctionProgress();
+    this.id = id;
+    this.minimumRequiredAsk = minimumRequiredAsk || 0;
+    this.numBids = numBids;
+    this.currentHighestBidValue = currentHighestBidValue;
+    this.auctionProgress = this.getAuctionProgress();
   }
 
   private _validateMinimumRequiredAsk(): boolean {
-    return Boolean(this._minimumRequiredAsk);
+    return Boolean(this.minimumRequiredAsk);
   }
 
-  getAuctionProgress(): number {
-    if (Boolean(this._auctionProgress)) return this._auctionProgress;
+  public getAuctionProgress(): number {
+    if (Boolean(this.auctionProgress)) {
+      return this.auctionProgress;
+    }
 
-    if (!this._validateMinimumRequiredAsk()) return 100;
+    if (!this._validateMinimumRequiredAsk()) {
+      return 100;
+    }
 
     const rawResult: number =
-      (this._currentHighestBidValue * 100) / this._minimumRequiredAsk;
+      (this.currentHighestBidValue * 100) / this.minimumRequiredAsk;
     const rawResultAsString: string = rawResult.toFixed(2);
 
     const result: number = parseFloat(rawResultAsString);
     return result;
   }
 
-  compareId(id: number): boolean {
-    return this._id === id;
+  public compareId(id: number): boolean {
+    return this.id === id;
   }
 
-  getTotalBids(): number {
-    return this._numBids;
+  public getTotalBids(): number {
+    return this.numBids;
   }
 }

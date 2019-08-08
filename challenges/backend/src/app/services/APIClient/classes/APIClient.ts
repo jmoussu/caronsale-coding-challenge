@@ -1,13 +1,16 @@
+import 'reflect-metadata';
+import { injectable } from 'inversify';
 import axios, { AxiosInstance } from 'axios';
 
 import { IAPIClient } from '../interfaces';
 import { RequestConfiguration, APIResponse } from '../types';
 
+@injectable()
 export default class APIClient implements IAPIClient {
-  private _client: AxiosInstance;
+  private client: AxiosInstance;
 
-  constructor(baseURL?: string, headers?: object) {
-    this._client = axios.create({ baseURL, headers });
+  public constructor(baseURL?: string, headers?: object) {
+    this.client = axios.create({ baseURL, headers });
   }
 
   private _getRequestConfig(config: RequestConfiguration): any {
@@ -16,21 +19,21 @@ export default class APIClient implements IAPIClient {
     return { params: query, headers };
   }
 
-  setBaseUrl(baseUrl: string): void {
-    this._client.defaults.baseURL = baseUrl;
+  public setBaseUrl(baseUrl: string): void {
+    this.client.defaults.baseURL = baseUrl;
   }
 
-  getClientHeaders(): object {
-    return this._client.defaults.headers;
+  public getClientHeaders(): object {
+    return this.client.defaults.headers;
   }
 
-  async put(body: object, url?: string, config?: RequestConfiguration) {
+  public async put(body: object, url?: string, config?: RequestConfiguration) {
     try {
       const { query, headers } = this._getRequestConfig(config);
 
-      const response: APIResponse = await this._client.put(url, body, {
+      const response: APIResponse = await this.client.put(url, body, {
         headers,
-        params: query
+        params: query,
       });
 
       return response;
@@ -39,13 +42,13 @@ export default class APIClient implements IAPIClient {
     }
   }
 
-  async get(url?: string, config?: RequestConfiguration) {
+  public async get(url?: string, config?: RequestConfiguration) {
     try {
       const { query, headers } = this._getRequestConfig(config);
 
-      const response: APIResponse = await this._client.get(url, {
+      const response: APIResponse = await this.client.get(url, {
         headers,
-        params: query
+        params: query,
       });
 
       return response;
