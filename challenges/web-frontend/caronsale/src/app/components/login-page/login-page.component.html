@@ -1,1 +1,14 @@
-<p>login-page works!</p>
+<form class="login-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <mat-form-field>
+        <input matInput placeholder="email" type="email" name="email" [(ngModel)]="loginModel.email" required />
+        <mat-error *ngIf="f.controls['email']">
+            Please enter a valid email address
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="password" type="password" name="password" [(ngModel)]="loginModel.password"
+            required />
+    </mat-form-field>
+
+    <button mat-button color="primary" type="submit">login</button>
+</form>
