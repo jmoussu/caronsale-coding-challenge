@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {hash2} from "./Utils";
+import {hash} from "./Utils";
 import {ErrorMessages} from "./ErrorMessages";
 
 describe("hash", () => {
@@ -12,7 +12,7 @@ describe("hash", () => {
     theories.forEach(([input, cycles, expected]) => {
         it(`should return correct hash`, () => {
             // act
-            const result = hash2(input.toString(), cycles as number);
+            const result = hash(input.toString(), cycles as number);
 
             //assert
             expect(result).to.be.equal(expected);
@@ -25,7 +25,7 @@ describe("hash", () => {
 
         // act
         try {
-            hash2("acme", -1);
+            hash("acme", -1);
         } catch (e) {
             error = e;
         }
