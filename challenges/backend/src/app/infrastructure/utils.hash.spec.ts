@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {hash2} from "./Utils";
+import {ErrorMessages} from "./ErrorMessages";
 
 describe("hash", () => {
     // test vectors at https://www.di-mgt.com.au/sha_testvectors.html
@@ -16,5 +17,21 @@ describe("hash", () => {
             //assert
             expect(result).to.be.equal(expected);
         });
+    });
+
+    it("should throw error on bad cycle count value", () => {
+        // arrange
+        let error = null;
+
+        // act
+        try {
+            hash2("acme", -1);
+        } catch (e) {
+            error = e;
+        }
+
+        // assert
+        expect(error).to.be.not.null;
+        expect((error as Error).message).to.equal(ErrorMessages.INVALID_HASH_CYCLE_COUNT);
     });
 });

@@ -1,8 +1,9 @@
 import crypto = require("crypto");
+import {ErrorMessages} from "./ErrorMessages";
 
 export function hash2(plainText: string, cycles: number) {
     if (cycles < 1) {
-        throw new Error("Invalid hashing cycles");
+        throw new Error(ErrorMessages.INVALID_HASH_CYCLE_COUNT);
     }
 
     let hash: string = plainText;
