@@ -1,16 +1,24 @@
-import {ICarOnSaleClient} from "../interface/ICarOnSaleClient";
-import {IRunningAuctionListViewModel} from '../interface/ViewModels';
-import {injectable} from "inversify";
 import "reflect-metadata";
+import {config} from 'node-config-ts';
+import {inject, injectable} from "inversify";
+import {ICarOnSaleClient} from "../interface/ICarOnSaleClient";
+import {DependencyIdentifier} from "../../../DependencyIdentifiers";
+import {IApiClient} from "../../ApiClient/interface/IApiClient";
+import {IRunningAuctionListViewModel} from "../interface/IRunningAuctionListViewModel";
+import RunningAuctionListViewModel from "./RunningAuctionListViewModel";
 
 @injectable()
 export default class CarOnSaleClient implements ICarOnSaleClient {
-    getRunningAuctions(): Promise<IRunningAuctionListViewModel> {
-        return Promise.resolve(<IRunningAuctionListViewModel>{
-            totalCount: 1,
-            items: [
-                {id: 1, numBids: 2, progress: 44}
-            ]
-        });
+    public constructor(@inject(DependencyIdentifier.API_CLIENT) private client: IApiClient) {
+    }
+
+    async getRunningAuctions(): Promise<IRunningAuctionListViewModel> {
+        const authenticationResult = await this.client.authenticateAsync(config.defaultUserId, config.defaultPassword);
+        if (authenticationResult != null && authenticationResult.authenticated) {
+            const runningAuctions = await this.client.getRunningAuctionsAsync(authenticationResult.userId, authenticationResult.token);
+            if (runningAuctions != null && runningAuctions.length > 0) {
+                return new RunningAuctionListViewModel(runningAuctions);
+            }
+        }
     }
 }

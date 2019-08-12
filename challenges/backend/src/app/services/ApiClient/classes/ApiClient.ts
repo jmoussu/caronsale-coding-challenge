@@ -1,4 +1,5 @@
 import axios from "axios";
+import "reflect-metadata";
 import {injectable} from "inversify";
 import {hash} from "../../../infrastructure/Utils";
 import {config} from 'node-config-ts';

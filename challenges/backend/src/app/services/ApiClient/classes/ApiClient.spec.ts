@@ -1,11 +1,11 @@
 import {expect} from "chai";
+import nock from "nock";
 import ApiClient from "./ApiClient";
-import {config} from 'node-config-ts';
+import {config} from "node-config-ts";
 import {hash} from "../../../infrastructure/Utils";
 import {IAuthenticationResult} from "../interface/IAuthenticationResult";
-import nock from "nock";
 import {IAuthenticationRequest} from "../interface/IAuthenticationRequest";
-import {IRunningAuctionListViewModel} from "../../CarOnSaleClient/interface/ViewModels";
+import {IRunningAuctionListViewModel} from "../../CarOnSaleClient/interface/IRunningAuctionListViewModel";
 import {IApiClient} from "../interface/IApiClient";
 
 describe("ApiClient", () => {

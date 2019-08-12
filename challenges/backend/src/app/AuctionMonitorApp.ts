@@ -1,7 +1,6 @@
 import {inject, injectable} from "inversify";
 import {ILogger} from "./services/Logger/interface/ILogger";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
-import "reflect-metadata";
 import {ICarOnSaleClient} from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 
 @injectable()
@@ -13,9 +12,15 @@ export class AuctionMonitorApp {
 
     public async start(): Promise<void> {
         this.logger.log(`Auction Monitor started.`);
-        const result = await this.client.getRunningAuctions();
-        this.logger.log(JSON.stringify(result));
-        process.exitCode = 0;
+
+        try {
+            const result = await this.client.getRunningAuctions();
+            this.logger.log(JSON.stringify(result));
+            process.exitCode = 0;
+        } catch (error) {
+            this.logger.log(error.message);
+            process.exitCode = 1;
+        }
 
         this.logger.log(`Application finished with exit code of ${process.exitCode}`)
     }

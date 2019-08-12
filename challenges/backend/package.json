@@ -31,6 +31,7 @@
     "@types/sinon-chai": "^3.2.2",
     "@types/axios": "0.9.28",
     "@types/inversify": "^2.0.33",
-    "@types/node": "^12.0.0"
+    "@types/node": "^12.0.0",
+    "@types/nock": "^10.0.3"
   }
 }
