@@ -16,9 +16,7 @@ export default class CarOnSaleClient implements ICarOnSaleClient {
         const authenticationResult = await this.client.authenticateAsync(config.defaultUserId, config.defaultPassword);
         if (authenticationResult != null && authenticationResult.authenticated) {
             const runningAuctions = await this.client.getRunningAuctionsAsync(authenticationResult.userId, authenticationResult.token);
-            if (runningAuctions != null && runningAuctions.length > 0) {
-                return new RunningAuctionListViewModel(runningAuctions);
-            }
+            return new RunningAuctionListViewModel(runningAuctions);
         }
     }
 }

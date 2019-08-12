@@ -2,9 +2,15 @@ import {inject, injectable} from "inversify";
 import {ILogger} from "./services/Logger/interface/ILogger";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
 import {ICarOnSaleClient} from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
+import "reflect-metadata";
 
 @injectable()
 export class AuctionMonitorApp {
+    private _exitCode: number = 0;
+
+    get exitCode(): number {
+        return this._exitCode;
+    }
 
     public constructor(@inject(DependencyIdentifier.LOGGER) private logger: ILogger,
                        @inject(DependencyIdentifier.CAR_ON_SALE_CLIENT) private client: ICarOnSaleClient) {
@@ -16,12 +22,11 @@ export class AuctionMonitorApp {
         try {
             const result = await this.client.getRunningAuctions();
             this.logger.log(JSON.stringify(result));
-            process.exitCode = 0;
         } catch (error) {
             this.logger.log(error.message);
-            process.exitCode = 1;
+            this._exitCode = 1;
         }
 
-        this.logger.log(`Application finished with exit code of ${process.exitCode}`)
+        process.exit(this.exitCode)
     }
 }

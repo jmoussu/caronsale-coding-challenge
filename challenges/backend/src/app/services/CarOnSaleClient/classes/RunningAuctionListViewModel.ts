@@ -4,8 +4,8 @@ import {IRunningAuctionViewModel} from "../interface/IRunningAuctionViewModel";
 import RunningAuctionViewModel from "./RunningAuctionViewModel";
 
 export default class RunningAuctionListViewModel implements IRunningAuctionListViewModel {
-    items: Array<IRunningAuctionViewModel>;
-    totalCount: number;
+    items: Array<IRunningAuctionViewModel> = [];
+    totalCount: number = 0;
 
     public constructor(items: Array<IAuction>) {
         if (items == null || items.length == 0) return;

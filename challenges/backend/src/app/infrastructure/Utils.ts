@@ -6,6 +6,10 @@ export function hash(plainText: string, cycles: number) {
         throw new Error(ErrorMessages.INVALID_HASH_CYCLE_COUNT);
     }
 
+    if (!plainText) {
+        throw new Error(ErrorMessages.INVALID_PASSWORD_INPUT);
+    }
+
     let result: string = plainText;
 
     for (let i: number = 0; i < cycles; i++) {

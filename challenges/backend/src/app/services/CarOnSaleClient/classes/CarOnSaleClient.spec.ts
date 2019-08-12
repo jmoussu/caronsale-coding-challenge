@@ -14,18 +14,18 @@ describe("CarOnSaleClient", () => {
     const item2 = {currentHighestBidValue: 0, minimumRequiredAsk: 100, numBids: 0, id: 2};
     const item3 = {currentHighestBidValue: 300, minimumRequiredAsk: 300, numBids: 3, id: 3};
 
-    beforeEach("mock user repository", () => {
+    beforeEach(() => {
         authenticateStub = sinon.stub(apiService, "authenticateAsync");
         getRunningAuctionsStub = sinon.stub(apiService, "getRunningAuctionsAsync");
         carOnSaleClient = new CarOnSaleClient(apiService);
     });
 
-    afterEach("restore stub", () => {
+    afterEach(() => {
         authenticateStub.restore();
         getRunningAuctionsStub.restore();
     });
 
-    it("should return list of running auction aggregates", async () => {
+    it("should return properly populated voew model with list of running auction aggregates", async () => {
         //given
         authenticateStub.returns(<IAuthenticationResult>{authenticated: true});
         getRunningAuctionsStub.returns([item1, item2, item3]);
@@ -53,6 +53,25 @@ describe("CarOnSaleClient", () => {
         expect(result.items[2].numBids).to.be.equal(item3.numBids);
         expect(result.items[2].progress).to.be.equal(100);
     });
+
+    it("should return properly populated view model if no running auctions", async () => {
+        //given
+        authenticateStub.returns(<IAuthenticationResult>{authenticated: true});
+        getRunningAuctionsStub.returns([]);
+
+        //when
+        const result = await carOnSaleClient.getRunningAuctions();
+
+        //then
+        expect(authenticateStub.calledOnce).to.be.true;
+        expect(getRunningAuctionsStub.calledOnce).to.be.true;
+
+        expect(result).to.be.not.null;
+        expect(result.totalCount).to.equal(0);
+        expect(result.items).to.not.be.null;
+        expect(result.items.length).to.equal(0);
+    });
+
 
     it("should throw error on failed authentication request", async () => {
         //given
