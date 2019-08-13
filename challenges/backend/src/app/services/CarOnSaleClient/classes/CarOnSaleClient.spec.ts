@@ -1,8 +1,11 @@
 import { CarOnSaleClient } from "./CarOnSaleClient";
 import { ICarOnSaleClient } from "../interface/ICarOnSaleClient";
+import { AuctionItem } from "../models/AuctionItem";
 import "reflect-metadata";
 
-var expect = require('chai').expect;
+import chai from "chai";
+
+const expect = chai.expect;
 
 describe('CarOnSaleClient class test', function () {
     let client: ICarOnSaleClient;
@@ -12,6 +15,7 @@ describe('CarOnSaleClient class test', function () {
     })
 
     it('Should return running auctions', function () {
+
         expect(client.getRunningAuctions()).to.not.throw();
         
     })
