@@ -19,7 +19,7 @@ describe("ApiClient", () => {
         const userId: string = "userId";
         const password: string = "password";
         const token: string = "token";
-        const scope = nock(config.baseUrl)
+        nock(config.baseUrl)
             .put('/authentication/userId', <IAuthenticationRequest>{password: hash(password, config.defaultHashCycles)})
             .reply(200, <IAuthenticationResult>{
                 authenticated: true,
@@ -37,12 +37,12 @@ describe("ApiClient", () => {
         expect(result.authenticated).to.be.equal(true);
     });
 
-    it("should call the authentication endpoint and throw error om bad response code", async () => {
+    it("should call the authentication endpoint and throw error on bad response code", async () => {
         //given
         const userId: string = "userId";
         const password: string = "password";
         const token: string = "token";
-        const scope = nock(config.baseUrl)
+        nock(config.baseUrl)
             .put('/authentication/userId', <IAuthenticationRequest>{password: hash(password, config.defaultHashCycles)})
             .reply(401, <IAuthenticationResult>{
                 authenticated: true,

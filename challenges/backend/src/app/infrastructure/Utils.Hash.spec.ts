@@ -27,7 +27,7 @@ describe("hash", () => {
     });
 
     invalidInputTheories.forEach(([password, cyclesCount, expectedErrorMessage], index) => {
-        it(`should throw error on bad password input ${index}`, () => {
+        it(`should throw error on bad input ${index}`, () => {
             // arrange
             let error = null;
 
